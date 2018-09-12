@@ -18,6 +18,7 @@ public class Main2Activity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
+
         FrameLayout mainFrameLayout = (FrameLayout) findViewById(R.id.container);
 
         final HomeFragment homeFragment = new HomeFragment();

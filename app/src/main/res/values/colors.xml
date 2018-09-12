@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#21425d</color>
     <color name="colorAccent">#01bcd5</color>
     <color name="white">#FFFFFF</color>
+    <color name="selector_item_color">#000000</color>
 </resources>
