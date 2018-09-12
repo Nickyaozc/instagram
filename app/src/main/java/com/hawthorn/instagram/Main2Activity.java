@@ -1,5 +1,7 @@
 package com.hawthorn.instagram;
 
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -11,16 +13,20 @@ import android.widget.FrameLayout;
 
 public class Main2Activity extends AppCompatActivity {
 
+    int currentItemId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        BottomNavigationView bottomNavigationView
+        /*Initiate the bottomNavigationBar*/
+        final BottomNavigationView bottomNavigationView
                 = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
 
-        FrameLayout mainFrameLayout = (FrameLayout) findViewById(R.id.container);
-
+        /*Initiate the FrameLayout which holding the five different Fragments
+          corresponding to the 5 buttons in the bottomNavigationBar*/
+        final FrameLayout mainFrameLayout = (FrameLayout) findViewById(R.id.container);
         final HomeFragment homeFragment = new HomeFragment();
         final DiscoveryFragment discoveryFragment = new DiscoveryFragment();
         final photoFragment photoFragment = new photoFragment();
@@ -34,6 +40,10 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
+                if (menuItem.getItemId() != R.id.nav_photo) {
+
+                }
+
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
                         setFragment(homeFragment);
@@ -44,7 +54,7 @@ public class Main2Activity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_photo:
-                        setFragment(photoFragment);
+                        showPhotoActivity();
                         return true;
 
                     case R.id.nav_activity:
@@ -58,10 +68,9 @@ public class Main2Activity extends AppCompatActivity {
                     default:
                         return false;
                 }
-
-
             }
         });
+
 
     }
 
@@ -69,5 +78,10 @@ public class Main2Activity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.commit();
+    }
+
+    public void showPhotoActivity() {
+        Intent intent = new Intent(this, PhotoActivity.class);
+        startActivity(intent);
     }
 }
