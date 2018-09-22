@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hawthorn.instagram">
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,12 +19,21 @@
         </activity>
         <activity android:name=".Main2Activity" />
         <activity android:name=".PhotoActivity"
-            android:parentActivityName=".MainActivity">
-        <!-- The meta-data tag is required if you support API level 15 and lower -->
+            android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean">
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
-               android:name="android.support.PARENT_ACTIVITY"
-               android:value=".MainActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.hawthorn.instagram.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
-
 </manifest>
