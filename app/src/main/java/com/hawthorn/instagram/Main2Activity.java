@@ -1,7 +1,6 @@
 package com.hawthorn.instagram;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -29,7 +28,7 @@ public class Main2Activity extends AppCompatActivity {
         final FrameLayout mainFrameLayout = (FrameLayout) findViewById(R.id.container);
         final HomeFragment homeFragment = new HomeFragment();
         final DiscoveryFragment discoveryFragment = new DiscoveryFragment();
-        final photoFragment photoFragment = new photoFragment();
+        final CaptureFragment photoFragment = new CaptureFragment();
         final ActivityFragment activityFragment = new ActivityFragment();
         final ProfileFragment profileFragment = new ProfileFragment();
 

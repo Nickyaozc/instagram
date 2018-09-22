@@ -8,6 +8,7 @@
     <string name="nav_add_photo">photo</string>
     <string name="nav_activity">activity</string>
     <string name="nav_profile">profile</string>
+    <string name="toolbar_photo">camera</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
