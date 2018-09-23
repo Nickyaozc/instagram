@@ -16,6 +16,19 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <TextView
+            android:id="@+id/toolbarCancelTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left"
+            android:adjustViewBounds="true"
+            android:fontFamily="sans-serif"
+            android:text="@string/toolbar_cancel"
+            android:textColor="@color/grey"
+            android:onClick="closePhotoActivity"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="19dp" />
+
+        <TextView
             android:id="@+id/toolbarCenterTextView"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
