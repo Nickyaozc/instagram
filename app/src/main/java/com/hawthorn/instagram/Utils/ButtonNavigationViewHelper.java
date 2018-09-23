@@ -1,4 +1,4 @@
-package com.hawthorn.instagram;
+package com.hawthorn.instagram.Utils;
 
 import android.annotation.SuppressLint;
 import android.support.design.internal.BottomNavigationItemView;

@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main2Activity" />
-        <activity android:name=".PhotoActivity"
+        <activity android:name=".Photo.PhotoActivity"
             android:parentActivityName=".MainActivity"
             tools:targetApi="jelly_bean">
             <!-- The meta-data tag is required if you support API level 15 and lower -->

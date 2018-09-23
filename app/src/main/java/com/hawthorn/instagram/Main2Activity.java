@@ -10,6 +10,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.hawthorn.instagram.Activity.ActivityFragment;
+import com.hawthorn.instagram.Discovery.DiscoveryFragment;
+import com.hawthorn.instagram.Home.HomeFragment;
+import com.hawthorn.instagram.Photo.PhotoActivity;
+import com.hawthorn.instagram.Profile.ProfileFragment;
+
 public class Main2Activity extends AppCompatActivity {
 
     int currentItemId;
@@ -28,7 +34,6 @@ public class Main2Activity extends AppCompatActivity {
         final FrameLayout mainFrameLayout = (FrameLayout) findViewById(R.id.container);
         final HomeFragment homeFragment = new HomeFragment();
         final DiscoveryFragment discoveryFragment = new DiscoveryFragment();
-        final CaptureFragment photoFragment = new CaptureFragment();
         final ActivityFragment activityFragment = new ActivityFragment();
         final ProfileFragment profileFragment = new ProfileFragment();
 

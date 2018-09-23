@@ -1,4 +1,4 @@
-package com.hawthorn.instagram;
+package com.hawthorn.instagram.Photo;
 
 
 import android.os.Bundle;
@@ -7,14 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hawthorn.instagram.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CaptureFragment extends Fragment {
+public class GalleryFragment extends Fragment {
+    static final String TAG = "GalleryFragment";
 
 
-    public CaptureFragment() {
+    public GalleryFragment() {
         // Required empty public constructor
     }
 
@@ -23,7 +26,7 @@ public class CaptureFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_capture, container, false);
+        return inflater.inflate(R.layout.fragment_gallery, container, false);
     }
 
 }

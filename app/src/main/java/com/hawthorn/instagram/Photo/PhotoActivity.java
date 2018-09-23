@@ -1,4 +1,4 @@
-package com.hawthorn.instagram;
+package com.hawthorn.instagram.Photo;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,22 +8,31 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
+import com.hawthorn.instagram.R;
 
 public class PhotoActivity extends FragmentActivity {
-
+    //var, const
+    static final String TAG = "PhotoActivity";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
-    String mCurrentPhotoPath;
+    private static final int NUM_PAGES = 2;
+
+    //widgets
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-    private static final int NUM_PAGES = 2;
+    private TextView tbCenterTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
         setupViewPaper();
-
+        tbCenterTextView = (TextView) findViewById(R.id.toolbarCenterTextView);
+        Log.d(TAG, "onCreate: Started");
+        setupPageChangeListener();
 //        dispatchTakePictureIntent();
     }
 
@@ -53,7 +62,7 @@ public class PhotoActivity extends FragmentActivity {
             if (position == 0) {
                 return new GalleryFragment();
             }else {
-                return new CaptureFragment();
+                return new CameraFragment();
             }
         }
 
@@ -75,6 +84,28 @@ public class PhotoActivity extends FragmentActivity {
         tabLayout.getTabAt(0).setText(getString(R.string.toolbar_Gallery));
         tabLayout.getTabAt(1).setText(getString(R.string.toolbar_camera));
 
+    }
+
+    private void setupPageChangeListener() {
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    tbCenterTextView.setText("gallery");
+                }else{
+                    tbCenterTextView.setText("camera");
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
 //    private void dispatchTakePictureIntent() {
