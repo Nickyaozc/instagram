@@ -1,5 +1,6 @@
 package com.hawthorn.instagram;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,10 +22,8 @@ public class PhotoActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
+        setupViewPaper();
 
-        mPager = findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
 //        dispatchTakePictureIntent();
     }
 
@@ -51,13 +50,31 @@ public class PhotoActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new CaptureFragment();
+            if (position == 0) {
+                return new GalleryFragment();
+            }else {
+                return new CaptureFragment();
+            }
         }
 
         @Override
         public int getCount() {
             return NUM_PAGES;
         }
+    }
+
+    private void setupViewPaper() {
+        mPager = findViewById(R.id.pager);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(1);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.bottom_tabs);
+        tabLayout.setupWithViewPager(mPager);
+
+        tabLayout.getTabAt(0).setText(getString(R.string.toolbar_Gallery));
+        tabLayout.getTabAt(1).setText(getString(R.string.toolbar_camera));
+
     }
 
 //    private void dispatchTakePictureIntent() {
