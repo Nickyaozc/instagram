@@ -12,24 +12,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main2Activity" />
+        <activity android:name=".Login.LoginActivity" />
         <activity
             android:name=".Photo.PhotoActivity"
-            android:parentActivityName=".Login.MainActivity"
+            android:parentActivityName=".Login.LoginActivity"
             tools:targetApi="jelly_bean">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hawthorn.instagram.Login.MainActivity" />
+                android:value="com.hawthorn.instagram.Login.LoginActivity" />
         </activity>
+        <activity android:name=".Login.RegisterActivity"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -40,8 +41,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-        <activity android:name=".Login.RegisterActivity"></activity>
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package com.hawthorn.instagram;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -10,19 +9,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.hawthorn.instagram.Activity.ActivityFragment;
 import com.hawthorn.instagram.Discovery.DiscoveryFragment;
 import com.hawthorn.instagram.Home.HomeFragment;
+import com.hawthorn.instagram.Login.LoginActivity;
 import com.hawthorn.instagram.Photo.PhotoActivity;
 import com.hawthorn.instagram.Profile.ProfileFragment;
 
-public class Main2Activity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     //const
-    static final String TAG = "PhotoActivity";
+    static final String TAG = "MainActivity";
 
     //var
 
@@ -34,10 +35,16 @@ public class Main2Activity extends AppCompatActivity {
     private ActivityFragment activityFragment;
     private ProfileFragment profileFragment;
 
+    //firebase
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate: starting");
+
+        setupFirebaseAuth();
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
         mainFrameLayout = (FrameLayout) findViewById(R.id.container);
@@ -94,4 +101,41 @@ public class Main2Activity extends AppCompatActivity {
                 }
             });
     }
+
+    /*
+    ---------------------------------------- Firebase ---------------------------------------------
+     */
+
+    /**
+     * set up Firebase auth object
+     */
+    private void setupFirebaseAuth() {
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Checuk if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        checkCurrentUser(currentUser);
+    }
+
+    private void checkCurrentUser(FirebaseUser user) {
+        Log.d(TAG, "checkCurrentUser: starting");
+        if (user != null) {
+            // User is signed in
+            Log.d(TAG, "checkCurrentUser: signed_in: " + user.getUid());
+        } else {
+            // User is signed out
+            Log.d(TAG, "checkCurrentUser: signed_out");
+            showLoginActivity();
+        }
+    }
+
+    private void showLoginActivity() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
 }

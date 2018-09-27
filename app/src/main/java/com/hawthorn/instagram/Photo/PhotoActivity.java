@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hawthorn.instagram.Main2Activity;
 import com.hawthorn.instagram.R;
 
 public class PhotoActivity extends FragmentActivity {

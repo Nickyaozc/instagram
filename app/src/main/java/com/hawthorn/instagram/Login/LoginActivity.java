@@ -1,10 +1,9 @@
-
 package com.hawthorn.instagram.Login;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,49 +14,49 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hawthorn.instagram.MainActivity;
 import com.hawthorn.instagram.R;
 
-public class RegisterActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "RegisterActivity";
+    private static final String TAG = "LoginActivity";
 
     //Firebase
     private FirebaseAuth mAuth;
 
     //var
-    EditText emailInputText;
-    EditText passwordInputText;
-    EditText nameInputText;
+    EditText emailEditText;
+    EditText passwordEditText;
     String email;
     String password;
-    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        Log.d(TAG, "onCreate: Started");
-
+        setContentView(R.layout.activity_login);
+        Log.d(TAG, "onCreate: starting");
         setupFirebaseAuth();
+
     }
 
-    public void register(View view) {
-        emailInputText = (EditText) findViewById(R.id.emailInputText);
-        passwordInputText = (EditText) findViewById(R.id.passwordInputText);
-        nameInputText = (EditText) findViewById(R.id.nameInputText);
-        email = emailInputText.getText().toString();
-        password = passwordInputText.getText().toString();
-        name = nameInputText.getText().toString();
+    public void login(View view) {
 
-        if(email.equals("") || password.equals("") || name.equals("")) {
+        emailEditText = (EditText) findViewById(R.id.emailInputText);
+        passwordEditText = (EditText) findViewById(R.id.passwordInputText);
+        email = emailEditText.getText().toString();
+        password = passwordEditText.getText().toString();
+        if(email.equals("") || password.equals("")) {
             Toast.makeText(this, "a username or password are required",
                     Toast.LENGTH_SHORT).show();
         } else {
-            createAccount(email, password);
+            signin(email, password);
         }
+    }
 
-
+    public void createAccount(View view) {
+        showRegisterActivity();
     }
 
     public void showMainActivity() {
@@ -65,7 +64,12 @@ public class RegisterActivity extends Activity {
         startActivity(intent);
     }
 
-        /*
+    public void showRegisterActivity() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    /*
     ---------------------------------------- Firebase ---------------------------------------------
      */
 
@@ -77,25 +81,25 @@ public class RegisterActivity extends Activity {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public void createAccount(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
+    private void signin(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
+                            Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             showMainActivity();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
+
+                        // ...
                     }
                 });
     }
-
-
 }
