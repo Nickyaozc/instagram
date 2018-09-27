@@ -1,4 +1,4 @@
-package com.hawthorn.instagram;
+package com.hawthorn.instagram.Login;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,18 +9,15 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hawthorn.instagram.Main2Activity;
+import com.hawthorn.instagram.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public void showMain2Activity() {
-        Intent intent = new Intent(this, Main2Activity.class);
-        startActivity(intent);
-    }
+    public void login(View view) {
 
-    public void signUp(View view) {
-
-        EditText usernameEditText = (EditText) findViewById(R.id.usernameEditText);
-        EditText passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+        EditText usernameEditText = (EditText) findViewById(R.id.emailInputText);
+        EditText passwordEditText = (EditText) findViewById(R.id.passwordInputText);
         if(usernameEditText.getText().toString().equals("") ||
                 passwordEditText.getText().toString().equals("")) {
             Toast.makeText(this, "a username or password are required",
@@ -29,6 +26,20 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "sign up successfully", Toast.LENGTH_SHORT).show();
             showMain2Activity();
         }
+    }
+
+    public void createAccount(View view) {
+        showRegisterActivity();
+    }
+
+    public void showMain2Activity() {
+        Intent intent = new Intent(this, Main2Activity.class);
+        startActivity(intent);
+    }
+
+    public void showRegisterActivity() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
 
