@@ -18,6 +18,7 @@ import com.hawthorn.instagram.Discovery.DiscoveryFragment;
 import com.hawthorn.instagram.Home.HomeFragment;
 import com.hawthorn.instagram.Login.LoginActivity;
 import com.hawthorn.instagram.Photo.PhotoActivity;
+import com.hawthorn.instagram.Profile.ProfileActivity;
 import com.hawthorn.instagram.Profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void showProfileActivity(){
+        Intent intent1 = new Intent(this, ProfileActivity.class);
+        startActivity(intent1);
+    }
+
     private void setUpBottomNavigationListener() {
         bottomNavigationView.setOnNavigationItemSelectedListener(
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -92,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
                             return true;
 
                         case R.id.nav_profile:
-                            setFragment(profileFragment);
+                            showProfileActivity();
+//                            setFragment(profileFragment);
                             return true;
 
                         default:
