@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hawthorn.instagram.R;
+import com.hawthorn.instagram.Utils.UniversalImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 
 /**
@@ -18,6 +20,9 @@ public class ProfileFragment extends Fragment {
 
     public ProfileFragment() {
         // Required empty public constructor
+//        getActivity();
+        initImageLoader();
+        return;
     }
 
 
@@ -28,4 +33,8 @@ public class ProfileFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
+    private void initImageLoader(){
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(getActivity());
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+    }
 }

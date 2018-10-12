@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
                             return true;
 
                         case R.id.nav_profile:
+                            setFragment(profileFragment);
                             showProfileActivity();
-//                            setFragment(profileFragment);
                             return true;
 
                         default:
