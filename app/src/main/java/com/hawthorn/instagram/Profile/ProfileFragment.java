@@ -21,7 +21,7 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         // Required empty public constructor
 //        getActivity();
-        initImageLoader();
+//        initImageLoader();
         return;
     }
 

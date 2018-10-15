@@ -1,5 +1,7 @@
 package com.hawthorn.instagram.Profile;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -21,8 +23,9 @@ import com.hawthorn.instagram.Utils.UniversalImageLoader;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
-    private ImageView profilePhoto;
+//    private ImageView profilePhoto;
     private ProgressBar mProgressBar;
+    private Context mContext = ProfileActivity.this;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,8 +33,10 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         Log.d(TAG, "onCreate, started.");
         setupToolbar();
-        setupActivityWidgets();
-        setProfileImage();
+        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
+        mProgressBar.setVisibility(View.GONE);
+//        setupActivityWidgets();
+//        setProfileImage();
     }
 
 //    private void initImageLoader(){
@@ -39,37 +44,45 @@ public class ProfileActivity extends AppCompatActivity {
 //        ImageLoader.getInstance().init(universalImageLoader.getConfig());
 //    }
 
-    private void setProfileImage(){
-        Log.d(TAG, "setProfileImage: setting profile photo.");
-        String imgURL = "www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2016/08/ac-lloyd.jpg?itok=bb72IeLf";
-        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "https://");
-    }
-    private void setupActivityWidgets(){
-        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
-        mProgressBar.setVisibility(View.GONE);
-        profilePhoto = (ImageView) findViewById(R.id.profile_photo);
-    }
+//    private void setProfileImage(){
+//        Log.d(TAG, "setProfileImage: setting profile photo.");
+//        String imgURL = "www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2016/08/ac-lloyd.jpg?itok=bb72IeLf";
+//        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "https://");
+//    }
+//    private void setupActivityWidgets(){
+//        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
+//        mProgressBar.setVisibility(View.GONE);
+//        profilePhoto = (ImageView) findViewById(R.id.profile_photo);
+//    }
 
 
     private void setupToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.profileToolBar);
         setSupportActionBar(toolbar);
 
-
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                Log.d(TAG, "onMenuItemClick: click menu item:" + menuItem);
+//                switch (menuItem.getItemId()){
+//                    case  R.id.profileMenu:
+//                        Log.d(TAG, "onMenuItemClick: Navigating to Profile Preferences.");
+//                }
+//
+//                return false;
+//
+//
+//
+//
+//            }
+//        });
+        ImageView profileMenu = (ImageView) findViewById(R.id.profileMenu);
+        profileMenu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Log.d(TAG, "onMenuItemClick: click menu item:" + menuItem);
-                switch (menuItem.getItemId()){
-                    case  R.id.profileMenu:
-                        Log.d(TAG, "onMenuItemClick: Navigating to Profile Preferences.");
-                }
-
-                return false;
-
-
-
-
+            public void onClick(View v) {
+                Log.d(TAG, "navigate to settings");
+                Intent intent = new Intent(mContext, AccountSettingActivity.class);
+                startActivity(intent);
             }
         });
     }

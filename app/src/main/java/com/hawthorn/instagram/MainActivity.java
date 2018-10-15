@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                             return true;
 
                         case R.id.nav_profile:
-                            setFragment(profileFragment);
+//                            setFragment(profileFragment);
                             showProfileActivity();
                             return true;
 
