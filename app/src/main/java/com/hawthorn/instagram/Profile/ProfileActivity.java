@@ -23,7 +23,7 @@ import com.hawthorn.instagram.Utils.UniversalImageLoader;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
-//    private ImageView profilePhoto;
+    private ImageView profilePhoto;
     private ProgressBar mProgressBar;
     private Context mContext = ProfileActivity.this;
 
@@ -32,50 +32,50 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         Log.d(TAG, "onCreate, started.");
+        initImageLoader();
         setupToolbar();
-        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
-        mProgressBar.setVisibility(View.GONE);
-//        setupActivityWidgets();
-//        setProfileImage();
-    }
-
-//    private void initImageLoader(){
-//        UniversalImageLoader universalImageLoader = new UniversalImageLoader(getActivity());
-//        ImageLoader.getInstance().init(universalImageLoader.getConfig());
-//    }
-
-//    private void setProfileImage(){
-//        Log.d(TAG, "setProfileImage: setting profile photo.");
-//        String imgURL = "www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2016/08/ac-lloyd.jpg?itok=bb72IeLf";
-//        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "https://");
-//    }
-//    private void setupActivityWidgets(){
 //        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
 //        mProgressBar.setVisibility(View.GONE);
-//        profilePhoto = (ImageView) findViewById(R.id.profile_photo);
-//    }
+        setupActivityWidgets();
+        setProfileImage();
+    }
+
+    private void initImageLoader() {
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(mContext);
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+    }
+
+    private void setProfileImage() {
+        Log.d(TAG, "setProfileImage: setting profile photo.");
+        String imgURL = "cnet4.cbsistatic.com/img/QJcTT2ab-sYWwOGrxJc0MXSt3UI=/2011/10/27/a66dfbb7-fdc7-11e2-8c7c-d4ae52e62bcc/android-wallpaper5_2560x1600_1.jpg";
+        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "https://");
+    }
+
+    private void setupActivityWidgets() {
+        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
+        mProgressBar.setVisibility(View.GONE);
+        profilePhoto = (ImageView) findViewById(R.id.profile_photo);
+    }
 
 
     private void setupToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.profileToolBar);
         setSupportActionBar(toolbar);
 
-//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem menuItem) {
-//                Log.d(TAG, "onMenuItemClick: click menu item:" + menuItem);
-//                switch (menuItem.getItemId()){
-//                    case  R.id.profileMenu:
-//                        Log.d(TAG, "onMenuItemClick: Navigating to Profile Preferences.");
-//                }
-//
-//                return false;
-//
-//
-//
-//
-//            }
-//        });
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Log.d(TAG, "onMenuItemClick: click menu item:" + menuItem);
+                switch (menuItem.getItemId()) {
+                    case R.id.profileMenu:
+                        Log.d(TAG, "onMenuItemClick: navigate to user profile.");
+                }
+
+                return false;
+
+
+            }
+        });
         ImageView profileMenu = (ImageView) findViewById(R.id.profileMenu);
         profileMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,10 +86,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
+}
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.profile_menu, menu);
 //        return true;
 //    }
-}

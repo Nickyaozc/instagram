@@ -17,8 +17,9 @@
             android:id="@+id/relLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/relLayout1"
-            android:background="@drawable/white_grey_border_bottom">
+            android:layout_below="@+id/relLayout1">
+
+            <!--android:background="@drawable/white_grey_border_bottom"-->
             <!--Profile photo and follow stats, divide into two parts-->
             <LinearLayout
                 android:id="@+id/linLayout"
@@ -42,7 +43,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_centerVertical="true"
-                        app:civ_border_color="@color/black"
+                        app:civ_border_color="@color/grey"
                         app:civ_border_width="2dp"/>
                     <!--<de.hdodenhof.circleimageview.CircleImageView-->
                         <!--android:layout_width="80dp"-->
@@ -78,8 +79,9 @@
                     android:layout_height="wrap_content"
                     android:text="MartinZhang"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textSize="16sp"/>
+                    <!--android:textStyle="bold"/>-->
+
 
                 <TextView
                     android:id="@+id/description"
@@ -88,8 +90,9 @@
                     android:text="Not sure whether we need this text."
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:textStyle="bold"
                     android:layout_marginTop="5dp"/>
+
+                <!--android:textStyle="bold"-->
 
                 <TextView
                     android:id="@+id/website"
@@ -98,8 +101,9 @@
                     android:text="hawthron three."
                     android:textColor="@color/blue"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+
                     android:layout_marginTop="5dp" />
+                <!--android:textStyle="bold"-->
 
             </LinearLayout>
 

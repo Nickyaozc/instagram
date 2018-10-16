@@ -37,7 +37,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.relLayout1);
         setupSettingsList();
-
+        setupFragments();
         //setup the backarrow for navigating back to "ProfileActivity"
         ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
         backArrow.setOnClickListener(new View.OnClickListener() {
