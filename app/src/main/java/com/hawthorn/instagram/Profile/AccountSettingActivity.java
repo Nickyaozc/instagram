@@ -3,14 +3,18 @@ package com.hawthorn.instagram.Profile;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.hawthorn.instagram.R;
+import com.hawthorn.instagram.Utils.SectionStatePageAdapter;
 
 import java.util.ArrayList;
 
@@ -19,13 +23,19 @@ public class AccountSettingActivity extends AppCompatActivity {
 
     private Context mContext;
 
+    private SectionStatePageAdapter pagerAdapter;
+
+    private ViewPager mViewPager;
+    private RelativeLayout mRelativeLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accountsettings);
         mContext = AccountSettingActivity.this;
         Log.d(TAG, "onCreate: started.");
-
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.relLayout1);
         setupSettingsList();
 
         //setup the backarrow for navigating back to "ProfileActivity"
@@ -39,6 +49,19 @@ public class AccountSettingActivity extends AppCompatActivity {
         });
     }
 
+    private void setupFragments(){
+        pagerAdapter = new SectionStatePageAdapter(getSupportFragmentManager());
+        pagerAdapter.addFragment(new EditProfileFragment(), getString(R.string.edit_profile)); //fragment 0
+        pagerAdapter.addFragment(new SignOutFragment(), getString(R.string.sign_out)); //fragment 1
+    }
+
+    private void setViewPager(int fragmentNumber){
+        mRelativeLayout.setVisibility(View.GONE);
+        Log.d(TAG, "setViewPager: navigating to fragment #: " + fragmentNumber);
+        mViewPager.setAdapter(pagerAdapter);
+        mViewPager.setCurrentItem(fragmentNumber);
+    }
+
     private void setupSettingsList() {
         Log.d(TAG, "setupSettingsList: initializing 'Account Settings' list.");
         ListView listView = (ListView) findViewById(R.id.lvAccountSettings);
@@ -50,6 +73,13 @@ public class AccountSettingActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, options);
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "onItemClick: navigating to fragment#: " + position);
+                setViewPager(position);
+            }
+        });
 
     }
 }
