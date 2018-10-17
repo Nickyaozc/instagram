@@ -96,14 +96,17 @@ public class MainActivity extends AppCompatActivity {
                             return true;
 
                         case R.id.nav_photo:
+                            mToolbar.setLogo(null);
                             showPhotoActivity();
                             return false;
 
                         case R.id.nav_activity:
+                            mToolbar.setLogo(null);
                             setFragment(activityFragment);
                             return true;
 
                         case R.id.nav_profile:
+                            mToolbar.setLogo(null);
                             showProfileActivity();
 //                            setFragment(profileFragment);
                             return true;
