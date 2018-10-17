@@ -42,10 +42,10 @@ public class EditProfileFragment extends Fragment {
 
     }
 //    Very important, must init before using it.
-//    private void initImageLoader(){
-//        UniversalImageLoader universalImageLoader = new UniversalImageLoader(getActivity());
-//        ImageLoader.getInstance().init(universalImageLoader.getConfig());
-//    }
+    private void initImageLoader(){
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(getActivity());
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+    }
 
     private void setProfileImage(){
         Log.d(TAG, "setProfileImage: setting profile image.");

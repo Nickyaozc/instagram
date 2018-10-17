@@ -6,10 +6,10 @@
 
     <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/relLayout1">-->
+        <!--android:layout_height="10dp">-->
+        <!--&lt;!&ndash;android:id="@+id/relLayout1">&ndash;&gt;-->
 
-        <!--<include layout="@layout/snippet_top_profile_bar"/>-->
+        <!--&lt;!&ndash;<include layout="@layout/snippet_top_profile_bar"/>&ndash;&gt;-->
 
     <!--</RelativeLayout>-->
 
