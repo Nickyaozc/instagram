@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.support.v7.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private DiscoveryFragment discoveryFragment;
     private ActivityFragment activityFragment;
     private ProfileFragment profileFragment;
+    private Toolbar mToolbar;
 
     //firebase
     private FirebaseAuth mAuth;
@@ -49,12 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
         mainFrameLayout = (FrameLayout) findViewById(R.id.container);
+        mToolbar = findViewById(R.id.my_toolbar);
         homeFragment = new HomeFragment();
         discoveryFragment = new DiscoveryFragment();
         activityFragment = new ActivityFragment();
         profileFragment = new ProfileFragment();
 
         setFragment(homeFragment);
+        mToolbar.setLogo(R.drawable.instagram_textlogo);
         setUpBottomNavigationListener();
     }
 
@@ -82,10 +86,12 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (menuItem.getItemId()) {
                         case R.id.nav_home:
+                            mToolbar.setLogo(R.drawable.instagram_textlogo);
                             setFragment(homeFragment);
                             return true;
 
                         case R.id.nav_discovery:
+                            mToolbar.setLogo(null);
                             setFragment(discoveryFragment);
                             return true;
 
