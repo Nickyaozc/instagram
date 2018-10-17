@@ -10,10 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.hawthorn.instagram.Activity.ActivityFragment;
+import com.hawthorn.instagram.Activity.YouActivityFragment;
 import com.hawthorn.instagram.Discovery.DiscoveryFragment;
 import com.hawthorn.instagram.Home.HomeFragment;
 import com.hawthorn.instagram.Login.LoginActivity;
@@ -33,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
     private DiscoveryFragment discoveryFragment;
-    private ActivityFragment activityFragment;
+    private YouActivityFragment youActivityFragment;
     private ProfileFragment profileFragment;
+    private Toolbar mToolbar;
 
     //firebase
     private FirebaseAuth mAuth;
@@ -51,8 +53,9 @@ public class MainActivity extends AppCompatActivity {
         mainFrameLayout = (FrameLayout) findViewById(R.id.container);
         homeFragment = new HomeFragment();
         discoveryFragment = new DiscoveryFragment();
-        activityFragment = new ActivityFragment();
+        youActivityFragment = new YouActivityFragment();
         profileFragment = new ProfileFragment();
+        mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 
         setFragment(homeFragment);
         setUpBottomNavigationListener();
@@ -94,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
                             return false;
 
                         case R.id.nav_activity:
-                            setFragment(activityFragment);
+                            setFragment(youActivityFragment);
+                            setActivityToolbar();
                             return true;
 
                         case R.id.nav_profile:
@@ -108,6 +112,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
     }
+
+    private void setActivityToolbar() {
+        mToolbar.
+    }
+
+    
 
     /*
     ---------------------------------------- Firebase ---------------------------------------------
