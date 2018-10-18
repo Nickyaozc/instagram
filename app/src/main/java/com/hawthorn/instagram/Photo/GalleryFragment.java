@@ -2,6 +2,8 @@ package com.hawthorn.instagram.Photo;
 
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -20,6 +23,10 @@ import com.hawthorn.instagram.R;
 import com.hawthorn.instagram.Utils.FilePaths;
 import com.hawthorn.instagram.Utils.FileSearch;
 import com.hawthorn.instagram.Utils.GridImageAdapter;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -77,16 +84,51 @@ public class GalleryFragment extends Fragment {
         Log.d(TAG, "setupGridView: directory chosen: " + selectedDir);
         final ArrayList<String> imgURLs = FileSearch.getFilePaths(selectedDir);
         int gridWidth = getResources().getDisplayMetrics().widthPixels;
-        int imageWidth = gridWidth/NUM_GRID_COLUMNS;
+        final int imageWidth = gridWidth/NUM_GRID_COLUMNS;
         mGridView.setColumnWidth(imageWidth);
 
         //load photo to gridView
         if (imgURLs != null) {
             GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, mAppend, imgURLs);
             mGridView.setAdapter(adapter);
+            setmGalleryImageView(imgURLs.get(0), mGalleryImageView, mAppend);
+            mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.d(TAG, "onItemClick: selected an image: " + imgURLs.get(i));
+                    setmGalleryImageView(imgURLs.get(i), mGalleryImageView, mAppend);
+                }
+            });
         } else {
             Toast.makeText(getActivity(), "No photo in " + selectedDir, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setmGalleryImageView(String imgURL, ImageView imageView, String append) {
+        Log.d(TAG, "setmGalleryImageView: setting image to GalleryImageView");
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
+        imageLoader.displayImage(append + imgURL, imageView, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                mProgressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                mProgressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                mProgressBar.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+                mProgressBar.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
 }
