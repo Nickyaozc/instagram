@@ -49,6 +49,7 @@ public class GalleryFragment extends Fragment {
     private ArrayList<String> directorires;
     private static final int NUM_GRID_COLUMNS = 4;
     private static final String mAppend = "file:/";
+    private String mSelectedImagePath;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -92,11 +93,13 @@ public class GalleryFragment extends Fragment {
             GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, mAppend, imgURLs);
             mGridView.setAdapter(adapter);
             setmGalleryImageView(imgURLs.get(0), mGalleryImageView, mAppend);
+            mSelectedImagePath = imgURLs.get(0);
             mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Log.d(TAG, "onItemClick: selected an image: " + imgURLs.get(i));
                     setmGalleryImageView(imgURLs.get(i), mGalleryImageView, mAppend);
+                    mSelectedImagePath = imgURLs.get(i);
                 }
             });
         } else {
