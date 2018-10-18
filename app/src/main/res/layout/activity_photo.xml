@@ -7,7 +7,7 @@
     tools:context=".Photo.PhotoActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/photo_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -25,8 +25,7 @@
             android:text="@string/toolbar_cancel"
             android:textColor="@color/grey"
             android:onClick="closePhotoActivity"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="19dp" />
+            tools:layout_marginLeft="16dp"/>
 
         <TextView
             android:id="@+id/toolbarCenterTextView"
@@ -40,6 +39,22 @@
             android:textSize="14sp"
             tools:layout_editor_absoluteX="174dp"
             tools:layout_editor_absoluteY="19dp" />
+
+        <TextView
+            android:id="@+id/toolbarNextTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:adjustViewBounds="true"
+            android:fontFamily="sans-serif"
+            android:onClick="showEditPhotoActivity"
+            android:text="@string/toolbar_next"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
@@ -50,7 +65,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/photo_toolbar"
         app:layout_constraintVertical_bias="0.0">
     </android.support.v4.view.ViewPager>
 

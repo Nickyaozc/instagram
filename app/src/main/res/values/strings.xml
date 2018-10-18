@@ -18,4 +18,5 @@
     <string name="toolbar_cancel">cancel</string>
     <string name="btn_start_camera">start camera</string>
     <string name="btn_take_picture">take picture</string>
+    <string name="request_permission">camera permission required.</string>
 </resources>

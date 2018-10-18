@@ -8,24 +8,29 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hawthorn.instagram.R;
 
+import org.w3c.dom.Text;
+
 public class PhotoActivity extends FragmentActivity {
     //var, const
     static final String TAG = "PhotoActivity";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
-    private static final int NUM_PAGES = 2;
+    private static final int NUM_PAGES = 3;
 
     //widgets
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private TextView tbCenterTextView;
     private TextView tbCancelTextView;
+    private TextView tbNextTextView;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +39,21 @@ public class PhotoActivity extends FragmentActivity {
         setupViewPaper();
         tbCenterTextView = (TextView) findViewById(R.id.toolbarCenterTextView);
         tbCancelTextView = (TextView) findViewById(R.id.toolbarCancelTextView);
+        tbNextTextView = (TextView) findViewById(R.id.toolbarNextTextView);
+        tbNextTextView.setVisibility(View.GONE);
+        mToolbar = (Toolbar) findViewById(R.id.photo_toolbar);
         Log.d(TAG, "onCreate: Started");
         setupPageChangeListener();
     }
 
-
-
     public void closePhotoActivity(View view) {
-        super.onBackPressed();
+        Log.d(TAG, "closePhotoActivity: closing the photo activity");
+        finish();
+        //super.onBackPressed();
+    }
+
+    public void showEditPhotoActivity(View view) {
+        Log.d(TAG, "showEditPhotoActivity: navigate to the EditPhotoActivity");
     }
 
     /**
@@ -57,8 +69,11 @@ public class PhotoActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             if (position == 0) {
                 return new GalleryFragment();
-            }else {
-                return new CameraFragment();
+            } else if (position == 1){
+                //return new CameraFragment();
+                return new LiveCameraFragment();
+            } else {
+                return new EditPhotoFragment();
             }
         }
 
@@ -93,8 +108,11 @@ public class PhotoActivity extends FragmentActivity {
             public void onPageSelected(int position) {
                 if (position == 0) {
                     tbCenterTextView.setText("gallery");
+                    tbNextTextView.setVisibility(View.VISIBLE);
                 }else{
                     tbCenterTextView.setText("camera");
+                    tbNextTextView.setVisibility(View.GONE);
+
                 }
             }
             @Override
@@ -104,4 +122,7 @@ public class PhotoActivity extends FragmentActivity {
         });
     }
 
+    public TextView getTbNextTextView() {
+        return tbNextTextView;
+    }
 }

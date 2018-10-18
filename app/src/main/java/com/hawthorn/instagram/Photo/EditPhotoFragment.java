@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -30,7 +29,7 @@ import static com.hawthorn.instagram.Photo.PhotoActivity.REQUEST_IMAGE_CAPTURE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CameraFragment extends Fragment {
+public class EditPhotoFragment extends Fragment {
     //const
     static final String TAG = "CameraFragment";
 
@@ -42,7 +41,7 @@ public class CameraFragment extends Fragment {
     private ImageView imageView;
 
 
-    public CameraFragment() {
+    public EditPhotoFragment() {
         // Required empty public constructor
     }
 
@@ -50,69 +49,73 @@ public class CameraFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera, container, false);
-        startCameraBtn = (Button) view.findViewById(R.id.startCameraBtn);
+        View view = inflater.inflate(R.layout.fragment_edit_photo, container, false);
+        //startCameraBtn = (Button) view.findViewById(R.id.startCameraBtn);
         imageView = (ImageView) view.findViewById(R.id.takenPhotoImageView);
         Log.d(TAG, "onCreateView: started");
-        setButtonListener(startCameraBtn);
+       // Glide.with(this).load(mCurrentPhotoPath).into(imageView);
+//        setButtonListener(startCameraBtn);
         return view;
     }
 
-    private void setButtonListener(Button btn) {
-        btn.setOnClickListener(new View.OnClickListener() {
+// --------------------------------- 17/10/2018 -------------------------------------
+//    private void setButtonListener(Button btn) {
+//        btn.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View v) {
+//                dispatchTakePictureIntent();
+//            }
+//        });
+//    }
 
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
-    }
+//    private void dispatchTakePictureIntent() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//
+//        // Ensure that there's a camera activity to handle the intent
+//        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+//            // Create the File where the photo should go
+//            File photoFile = null;
+//            try {
+//                photoFile = createImageFile();
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//            // Continue only if the File was successfully created
+//            if (photoFile != null) {
+//                Uri photoURI = FileProvider.getUriForFile(getActivity(),
+//                        "com.hawthorn.instagram.fileprovider",
+//                        photoFile);
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//            }
+//        }
+//    }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//    private File createImageFile() throws IOException {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",     /* suffix */
+//                storageDir      /* directory */
+//        );
+//        // Save a file: path for use with ACTION_VIEW intents
+//        mCurrentPhotoPath = image.getAbsolutePath();
+//        return image;
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode,
+//                                    Intent data) {
+//        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+//            Log.d(TAG, "onActivityResult: started");
+//            Glide.with(this).load(mCurrentPhotoPath).into(imageView);
+//        }
+//    }
 
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(getActivity(),
-                        "com.hawthorn.instagram.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",     /* suffix */
-                storageDir      /* directory */
-        );
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            Log.d(TAG, "onActivityResult: started");
-            Glide.with(this).load(mCurrentPhotoPath).into(imageView);
-        }
-    }
+// ---------------------------------------------------------------------------------------------
 //
 //    private boolean checkPermission() {
 //        int permissionCheck = ContextCompat.checkSelfPermission(PhotoActivity.this,
