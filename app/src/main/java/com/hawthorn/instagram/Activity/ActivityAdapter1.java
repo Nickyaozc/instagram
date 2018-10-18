@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.hawthorn.instagram.R;
 
-import java.util.List;
-
-public class ActivityAdapter extends RecyclerView.Adapter{
+public class ActivityAdapter1 extends RecyclerView.Adapter{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
@@ -27,7 +25,7 @@ public class ActivityAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return ActivityData.title.length;
+        return ActivityData.title1.length;
     }
 
     private class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -44,7 +42,7 @@ public class ActivityAdapter extends RecyclerView.Adapter{
 
         public void bindView(int position){
             profilePhoto.setImageResource(ActivityData.profilePhoto[position]);
-            activityText.setText(ActivityData.title[position]);
+            activityText.setText(ActivityData.title1[position]);
             post.setImageResource(ActivityData.post[position]);
 
         }

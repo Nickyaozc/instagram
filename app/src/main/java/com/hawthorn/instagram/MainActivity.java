@@ -10,11 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.hawthorn.instagram.Activity.YouActivityFragment;
+import com.hawthorn.instagram.Activity.ActivityMasterFragment;
 import com.hawthorn.instagram.Discovery.DiscoveryFragment;
 import com.hawthorn.instagram.Home.HomeFragment;
 import com.hawthorn.instagram.Login.LoginActivity;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
     private DiscoveryFragment discoveryFragment;
-    private YouActivityFragment youActivityFragment;
+    private ActivityMasterFragment activityFragment;
     private ProfileFragment profileFragment;
     private Toolbar mToolbar;
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         mainFrameLayout = (FrameLayout) findViewById(R.id.container);
         homeFragment = new HomeFragment();
         discoveryFragment = new DiscoveryFragment();
-        youActivityFragment = new YouActivityFragment();
+        activityFragment = new ActivityMasterFragment();
         profileFragment = new ProfileFragment();
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                             return false;
 
                         case R.id.nav_activity:
-                            setFragment(youActivityFragment);
+                            setFragment(activityFragment);
                             setActivityToolbar();
                             return true;
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setActivityToolbar() {
-        mToolbar.
+//        mToolbar.
     }
 
     
