@@ -1,5 +1,9 @@
 package com.hawthorn.instagram.Photo;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,10 +14,12 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hawthorn.instagram.R;
+import com.hawthorn.instagram.Utils.CustomViewPager;
 
 import org.w3c.dom.Text;
 
@@ -22,15 +28,17 @@ public class PhotoActivity extends FragmentActivity {
     static final String TAG = "PhotoActivity";
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
-    private static final int NUM_PAGES = 3;
+    private static final int NUM_PAGES = 2;
 
     //widgets
-    private ViewPager mPager;
+    private CustomViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private TextView tbCenterTextView;
     private TextView tbCancelTextView;
     private TextView tbNextTextView;
     private Toolbar mToolbar;
+    private GalleryFragment galleryFragment;
+    private LiveCameraFragment liveCameraFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +56,12 @@ public class PhotoActivity extends FragmentActivity {
 
     public void closePhotoActivity(View view) {
         Log.d(TAG, "closePhotoActivity: closing the photo activity");
-        finish();
-        //super.onBackPressed();
+        super.onBackPressed();
     }
 
     public void showEditPhotoActivity(View view) {
-        Log.d(TAG, "showEditPhotoActivity: navigate to the EditPhotoActivity");
+        galleryFragment.crop();
+        Log.d(TAG, "showEditPhotoActivity: crop and navigate to the EditPhotoActivity");
     }
 
     /**
@@ -68,7 +76,8 @@ public class PhotoActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new GalleryFragment();
+                galleryFragment = new GalleryFragment();
+                return galleryFragment;
             } else if (position == 1){
                 //return new CameraFragment();
                 return new LiveCameraFragment();
@@ -83,6 +92,7 @@ public class PhotoActivity extends FragmentActivity {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupViewPaper() {
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());

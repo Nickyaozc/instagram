@@ -31,7 +31,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hawthorn.instagram.Login.LoginActivity" />
         </activity>
-        <activity android:name=".Login.RegisterActivity"></activity>
+        <activity android:name=".Login.RegisterActivity" />
         <activity android:name=".Profile.ProfileActivity" />
 
         <provider
@@ -43,6 +43,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".Photo.EditPhotoActivity"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.hawthorn.instagram.R;
@@ -26,6 +27,7 @@ public class GridImageAdapter extends ArrayAdapter<String>{
     private int layoutResource;
     private String mAppend;
     private ArrayList<String> imgURLs;
+    private ImageLoader imageLoader;
 
     public GridImageAdapter(Context context, int layoutResource, String append, ArrayList<String> imgURLs) {
         super(context, layoutResource, imgURLs);
@@ -34,6 +36,8 @@ public class GridImageAdapter extends ArrayAdapter<String>{
         this.layoutResource = layoutResource;
         mAppend = append;
         this.imgURLs = imgURLs;
+        imageLoader = ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
     }
 
     private static class ViewHolder{
@@ -63,8 +67,6 @@ public class GridImageAdapter extends ArrayAdapter<String>{
 
         String imgURL = getItem(position);
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
         imageLoader.displayImage(mAppend + imgURL, holder.image, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
