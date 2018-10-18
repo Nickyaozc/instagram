@@ -13,6 +13,8 @@ import android.widget.FrameLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hawthorn.instagram.Activity.ActivityFragment;
 import com.hawthorn.instagram.Discovery.DiscoveryFragment;
 import com.hawthorn.instagram.Home.HomeFragment;
@@ -56,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
 
         setFragment(homeFragment);
         setUpBottomNavigationListener();
+
+        // Write a message to the database
+        //FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //DatabaseReference myRef = database.getReference("message");
+
+       // myRef.setValue("Hello, World!");
     }
 
     private void setFragment(Fragment fragment) {
