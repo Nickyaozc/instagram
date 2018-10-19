@@ -7,7 +7,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -46,6 +48,7 @@ import android.widget.Toast;
 import com.hawthorn.instagram.MainActivity;
 import com.hawthorn.instagram.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -58,6 +61,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+
+import javax.microedition.khronos.egl.EGLDisplay;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,7 +97,7 @@ public class LiveCameraFragment extends Fragment
     private Size mPreviewSize;
     private ImageReader mImageReader;
     private File mFile;
-    private static final int REQUEST_CAMERA_PERMISSION = 100;
+    private static final int REQUEST_CAMERA_PERMISSION = 1;
     private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
@@ -178,15 +183,15 @@ public class LiveCameraFragment extends Fragment
     };
 
     //A callback object for tracking the progress of a CaptureRequest submitted to the camera device.
-    private CameraCaptureSession.CaptureCallback mCaptureCallback
-            = new CameraCaptureSession.CaptureCallback() {
-        @Override
-        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
-            super.onCaptureCompleted(session, request, result);
-            Toast.makeText(getContext(), "Saved:" + mFile, Toast.LENGTH_SHORT).show();
-            createCameraPreview();
-        }
-    };
+//    private CameraCaptureSession.CaptureCallback mCaptureCallback
+//            = new CameraCaptureSession.CaptureCallback() {
+//        @Override
+//        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+//            super.onCaptureCompleted(session, request, result);
+//            Toast.makeText(getContext(), "Saved:" + mFile, Toast.LENGTH_SHORT).show();
+////            createCameraPreview();
+//        }
+//    };
 
     protected void takePicture() {
         Log.e(TAG, "takePicture: Started");
@@ -251,6 +256,9 @@ public class LiveCameraFragment extends Fragment
                     try {
                         output = new FileOutputStream(mFile);
                         output.write(bytes);
+
+                        Log.e(TAG, "save: save captured image and navigate to the shareActivity");
+                        showEditPhotoActivity(bytes);
                     } finally {
                         if (null != output) {
                             output.close();
@@ -258,14 +266,15 @@ public class LiveCameraFragment extends Fragment
                     }
                 }
             };
+
             reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
             final CameraCaptureSession.CaptureCallback captureListener = new CameraCaptureSession.CaptureCallback() {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(getActivity(), "Saved:" + mFile, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "Saved:" + mFile, Toast.LENGTH_SHORT).show();
 
-                    createCameraPreview();
+//                    createCameraPreview();
                 }
             };
             mCameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
@@ -382,6 +391,16 @@ public class LiveCameraFragment extends Fragment
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    private void showEditPhotoActivity(byte[] bytes) {
+        Log.e(TAG, "showShareActivity: navigate to the EditPhotoActivity");
+//        ByteArrayOutputStream os = new ByteArrayOutputStream();
+//        currentBmp.compress(Bitmap.CompressFormat.JPEG, 100, os);
+//        byte[] cropeedImageBytesArray = os.toByteArray();
+        Intent intent = new Intent(getActivity(), EditPhotoActivity.class);
+        intent.putExtra(getString(R.string.cropped_image), bytes);
+        startActivity(intent);
     }
 
     //------------------------------------multi-thread--------------------------------------

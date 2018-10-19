@@ -31,19 +31,6 @@
                 android:onClick="closeEditPhotoActivity"
                 tools:layout_marginLeft="16dp"/>
 
-            <!--<TextView-->
-                <!--android:id="@+id/toolbarCenterTextView"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="fill_parent"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:fontFamily="sans-serif"-->
-                <!--android:text="Edit"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:textSize="14sp"-->
-                <!--tools:layout_editor_absoluteX="174dp"-->
-                <!--tools:layout_editor_absoluteY="19dp" />-->
-
             <ImageView
                 android:id="@+id/brightness_contrast"
                 android:layout_width="30dp"
@@ -64,8 +51,8 @@
                 android:fontFamily="sans-serif"
                 android:text="@string/toolbar_next"
                 android:textColor="@android:color/holo_blue_dark"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                android:onClick="showShareActivity"
+                android:textSize="14sp" />
 
         </android.support.v7.widget.Toolbar>
 

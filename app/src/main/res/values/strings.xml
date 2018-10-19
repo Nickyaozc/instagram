@@ -20,4 +20,5 @@
     <string name="btn_take_picture">take picture</string>
     <string name="request_permission">camera permission required.</string>
     <string name="cropped_image">cropped image</string>
+    <string name="edited_image">edited image</string>
 </resources>

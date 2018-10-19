@@ -1,5 +1,6 @@
 package com.hawthorn.instagram.Photo;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.zomato.photofilters.imageprocessors.subfilters.SaturationSubfilter;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.util.MissingFormatArgumentException;
 
 public class EditPhotoActivity extends AppCompatActivity {
@@ -45,6 +47,7 @@ public class EditPhotoActivity extends AppCompatActivity {
     private ImageView filterImageView3;
     private ImageView brightnessContrastBtn;
     private TextView toolbarCancelTextView;
+    private TextView toolbarNextTextView;
     private TextView editCancelTextView;
     private TextView editDoneTextView;
     private BubbleSeekBar brightnessSeekBar;
@@ -71,6 +74,7 @@ public class EditPhotoActivity extends AppCompatActivity {
         filterImageView3 = (ImageView) findViewById(R.id.filter_3);
         brightnessContrastBtn = (ImageView) findViewById(R.id.brightness_contrast);
         toolbarCancelTextView = (TextView) findViewById(R.id.toolbarCancelTextView);
+        toolbarNextTextView = (TextView) findViewById(R.id.toolbarNextTextView);
         editCancelTextView = (TextView) findViewById(R.id.edit_cancel_text);
         editDoneTextView = (TextView) findViewById(R.id.edit_done_text);
         brightnessSeekBar = (BubbleSeekBar) findViewById(R.id.brightness_seekbar);
@@ -90,11 +94,13 @@ public class EditPhotoActivity extends AppCompatActivity {
 
         //obtain image from previous activity
         imageByteArray = getIntent().getByteArrayExtra(getString(R.string.cropped_image));
+        bmp = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
 
         //convert immutable bitmap to mutable one
-        bmp = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
         currentBmp = bmp.copy(Bitmap.Config.ARGB_8888, true);;
+
         editedBmp = currentBmp;
+
         //set Image to ImageView
         mImageView.setImageBitmap(bmp);
         filterImageView1.setImageBitmap(setFilter(bmp, BLUE_MESS));
@@ -128,6 +134,7 @@ public class EditPhotoActivity extends AppCompatActivity {
             filterImageView2.setVisibility(View.INVISIBLE);
             filterImageView3.setVisibility(View.INVISIBLE);
             toolbarCancelTextView.setVisibility(View.INVISIBLE);
+            toolbarNextTextView.setVisibility(View.INVISIBLE);
             editCancelTextView.setVisibility(View.VISIBLE);
             editDoneTextView.setVisibility(View.VISIBLE);
             brightnessTextView.setVisibility(View.VISIBLE);
@@ -149,6 +156,7 @@ public class EditPhotoActivity extends AppCompatActivity {
             brightnessSeekBar.setVisibility(View.INVISIBLE);
             contrastSeekbar.setVisibility(View.INVISIBLE);
             toolbarCancelTextView.setVisibility(View.VISIBLE);
+            toolbarNextTextView.setVisibility(View.VISIBLE);
             filterImageView1.setVisibility(View.VISIBLE);
             filterImageView2.setVisibility(View.VISIBLE);
             filterImageView3.setVisibility(View.VISIBLE);
@@ -200,11 +208,6 @@ public class EditPhotoActivity extends AppCompatActivity {
         }
     };
 
-
-    public void closeEditPhotoActivity(View view) {
-        super.onBackPressed();
-    }
-
     private Bitmap setFilter(Bitmap inputImage, int filterRef) {
 
         inputImage = inputImage.copy(Bitmap.Config.ARGB_8888, true);
@@ -228,5 +231,17 @@ public class EditPhotoActivity extends AppCompatActivity {
         return filteredBmp;
     }
 
+    public void showShareActivity(View view) {
+        Log.e(TAG, "showShareActivity: navigate to the shareActivity");
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        currentBmp.compress(Bitmap.CompressFormat.JPEG, 100, os);
+        byte[] cropeedImageBytesArray = os.toByteArray();
+        Intent intent = new Intent(this, ShareActivity.class);
+        intent.putExtra(getString(R.string.edited_image), cropeedImageBytesArray);
+        startActivity(intent);
+    }
 
+    public void closeEditPhotoActivity(View view) {
+        super.onBackPressed();
+    }
 }

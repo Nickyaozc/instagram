@@ -130,6 +130,7 @@ public class GalleryFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), EditPhotoActivity.class);
                         intent.putExtra(getString(R.string.cropped_image), cropeedImageBytesArray);
                         startActivity(intent);
+                        getActivity().overridePendingTransition(0,0);
                     }
 
                 }

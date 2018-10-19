@@ -133,7 +133,10 @@ public class PhotoActivity extends FragmentActivity {
         });
     }
 
-    public TextView getTbNextTextView() {
-        return tbNextTextView;
+    @Override
+    protected void onPause() {
+        overridePendingTransition(0, 0);
+        super.onPause();
     }
+    
 }
