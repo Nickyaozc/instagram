@@ -114,13 +114,13 @@ public class EditPhotoActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.filter_1:
-                    mImageView.setImageBitmap(setFilter(bmp, BLUE_MESS));
+                    mImageView.setImageBitmap(currentBmp = setFilter(bmp, BLUE_MESS));
                     break;
                 case R.id.filter_2:
-                    mImageView.setImageBitmap(setFilter(bmp, NIGHT_WHISPER));
+                    mImageView.setImageBitmap(currentBmp = setFilter(bmp, NIGHT_WHISPER));
                     break;
                 case R.id.filter_3:
-                    mImageView.setImageBitmap(setFilter(bmp, LIME_STUTTER));
+                    mImageView.setImageBitmap(currentBmp = setFilter(bmp, LIME_STUTTER));
                     break;
             }
         }
@@ -180,16 +180,18 @@ public class EditPhotoActivity extends AppCompatActivity {
                 case R.id.brightness_seekbar:
                     Log.e(TAG, "onProgressChanged: brightness=" + progress);
                     Filter brightnessFilter = new Filter();
-                    brightnessFilter.addSubFilter(new BrightnessSubfilter(progress/20));
-                    editedBmp = brightnessFilter.processFilter(currentBmp);
+                    brightnessFilter.addSubFilter(new BrightnessSubfilter(progress/10));
+                    editedBmp = currentBmp.copy(Bitmap.Config.ARGB_8888, true);
+                    brightnessFilter.processFilter(editedBmp);
                     mImageView.setImageBitmap(editedBmp);
                     break;
 
                 case R.id.contrast_seekbar:
                     Log.e(TAG, "onProgressChanged: contrast=" + progressFloat);
                     Filter contrastFilter = new Filter();
-                    contrastFilter.addSubFilter(new ContrastSubfilter(progressFloat));
-                    editedBmp = contrastFilter.processFilter(currentBmp);
+                    contrastFilter.addSubFilter(new ContrastSubfilter((progressFloat + 150)/100));
+                    editedBmp = currentBmp.copy(Bitmap.Config.ARGB_8888, true);
+                    contrastFilter.processFilter(editedBmp);
                     mImageView.setImageBitmap(editedBmp);
                     break;
             }
