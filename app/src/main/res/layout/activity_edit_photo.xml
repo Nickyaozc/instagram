@@ -44,7 +44,14 @@
                 <!--tools:layout_editor_absoluteX="174dp"-->
                 <!--tools:layout_editor_absoluteY="19dp" />-->
 
-
+            <ImageView
+                android:id="@+id/brightness_contrast"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:visibility="visible"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/brightness_contrast" />
 
             <TextView
                 android:id="@+id/toolbarNextTextView"
@@ -61,6 +68,7 @@
                 android:visibility="gone" />
 
         </android.support.v7.widget.Toolbar>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -122,6 +130,92 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <com.xw.repo.BubbleSeekBar
+                    android:id="@+id/brightness_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="34dp"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:visibility="invisible"
+                    app:bsb_bubble_text_color="@color/colorPrimaryDark"
+                    app:bsb_max="100"
+                    app:bsb_min="-100"
+                    app:bsb_progress="0"
+                    app:bsb_section_text_position="bottom_sides"
+                    app:bsb_show_progress_in_float="true"
+                    app:bsb_show_section_mark="true"
+                    app:bsb_show_section_text="true"
+                    app:bsb_show_thumb_text="true"
+                    app:layout_constraintBottom_toTopOf="@+id/contrast_seekbar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.xw.repo.BubbleSeekBar
+                    android:id="@+id/contrast_seekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:visibility="invisible"
+                    app:bsb_bubble_text_color="@color/colorPrimaryDark"
+                    app:bsb_max="100"
+                    app:bsb_min="-100"
+                    app:bsb_progress="0"
+                    app:bsb_section_text_position="bottom_sides"
+                    app:bsb_show_progress_in_float="true"
+                    app:bsb_show_section_mark="true"
+                    app:bsb_show_section_text="true"
+                    app:bsb_show_thumb_text="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/edit_cancel_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="80dp"
+                    android:text="Cancel"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/edit_done_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="80dp"
+                    android:text="Done"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <TextView
+                    android:id="@+id/brightness_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="16dp"
+                    android:text="birghtness"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/brightness_seekbar"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/contrast_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="20dp"
+                    android:text="contrast"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/contrast_seekbar"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
 

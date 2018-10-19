@@ -7,13 +7,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.hawthorn.instagram.R;
 import com.hawthorn.instagram.Utils.BitmapUtils;
+import com.xw.repo.BubbleSeekBar;
 import com.zomato.photofilters.SampleFilters;
 import com.zomato.photofilters.imageprocessors.Filter;
 import com.zomato.photofilters.imageprocessors.subfilters.BrightnessSubfilter;
+import com.zomato.photofilters.imageprocessors.subfilters.ContrastSubfilter;
 import com.zomato.photofilters.imageprocessors.subfilters.SaturationSubfilter;
+
+import org.w3c.dom.Text;
 
 import java.util.MissingFormatArgumentException;
 
@@ -30,12 +35,22 @@ public class EditPhotoActivity extends AppCompatActivity {
     private byte[] imageByteArray;
     private Bitmap bmp;
     private Bitmap editedBmp = null;
+    private Bitmap filteredBmp = null;
+    Bitmap currentBmp;
 
     //widgets
     private ImageView mImageView;
     private ImageView filterImageView1;
     private ImageView filterImageView2;
     private ImageView filterImageView3;
+    private ImageView brightnessContrastBtn;
+    private TextView toolbarCancelTextView;
+    private TextView editCancelTextView;
+    private TextView editDoneTextView;
+    private BubbleSeekBar brightnessSeekBar;
+    private BubbleSeekBar contrastSeekbar;
+    private TextView brightnessTextView;
+    private TextView contrastTextView;
 
     //load native library
     static
@@ -54,17 +69,32 @@ public class EditPhotoActivity extends AppCompatActivity {
         filterImageView1 = (ImageView) findViewById(R.id.filter_1);
         filterImageView2 = (ImageView) findViewById(R.id.filter_2);
         filterImageView3 = (ImageView) findViewById(R.id.filter_3);
+        brightnessContrastBtn = (ImageView) findViewById(R.id.brightness_contrast);
+        toolbarCancelTextView = (TextView) findViewById(R.id.toolbarCancelTextView);
+        editCancelTextView = (TextView) findViewById(R.id.edit_cancel_text);
+        editDoneTextView = (TextView) findViewById(R.id.edit_done_text);
+        brightnessSeekBar = (BubbleSeekBar) findViewById(R.id.brightness_seekbar);
+        contrastSeekbar = (BubbleSeekBar) findViewById(R.id.contrast_seekbar);
+        brightnessTextView = (TextView) findViewById(R.id.brightness_textview);
+        contrastTextView = (TextView) findViewById(R.id.contrast_textview);
+
+        //set Listener
         filterImageView1.setOnClickListener(filterOnClickListener);
         filterImageView2.setOnClickListener(filterOnClickListener);
         filterImageView3.setOnClickListener(filterOnClickListener);
+        brightnessContrastBtn.setOnClickListener(brtCstOnClickListener);
+        editCancelTextView.setOnClickListener(editTextOnClickListener);
+        editDoneTextView.setOnClickListener(editTextOnClickListener);
+        brightnessSeekBar.setOnProgressChangedListener(onProgressChangedListener);
+        contrastSeekbar.setOnProgressChangedListener(onProgressChangedListener);
 
         //obtain image from previous activity
         imageByteArray = getIntent().getByteArrayExtra(getString(R.string.cropped_image));
 
         //convert immutable bitmap to mutable one
         bmp = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
-//        bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
-
+        currentBmp = bmp.copy(Bitmap.Config.ARGB_8888, true);;
+        editedBmp = currentBmp;
         //set Image to ImageView
         mImageView.setImageBitmap(bmp);
         filterImageView1.setImageBitmap(setFilter(bmp, BLUE_MESS));
@@ -74,7 +104,6 @@ public class EditPhotoActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener filterOnClickListener = new View.OnClickListener() {
-
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
@@ -91,6 +120,87 @@ public class EditPhotoActivity extends AppCompatActivity {
         }
     };
 
+    private View.OnClickListener brtCstOnClickListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            filterImageView1.setVisibility(View.INVISIBLE);
+            filterImageView2.setVisibility(View.INVISIBLE);
+            filterImageView3.setVisibility(View.INVISIBLE);
+            toolbarCancelTextView.setVisibility(View.INVISIBLE);
+            editCancelTextView.setVisibility(View.VISIBLE);
+            editDoneTextView.setVisibility(View.VISIBLE);
+            brightnessTextView.setVisibility(View.VISIBLE);
+            contrastTextView.setVisibility(View.VISIBLE);
+            brightnessSeekBar.setVisibility(View.VISIBLE);
+            contrastSeekbar.setVisibility(View.VISIBLE);
+            brightnessSeekBar.setVerticalScrollbarPosition(0);
+            contrastSeekbar.setVerticalScrollbarPosition(0);
+        }
+    };
+
+    private View.OnClickListener editTextOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            editCancelTextView.setVisibility(View.INVISIBLE);
+            editDoneTextView.setVisibility(View.INVISIBLE);
+            brightnessTextView.setVisibility(View.INVISIBLE);
+            contrastTextView.setVisibility(View.INVISIBLE);
+            brightnessSeekBar.setVisibility(View.INVISIBLE);
+            contrastSeekbar.setVisibility(View.INVISIBLE);
+            toolbarCancelTextView.setVisibility(View.VISIBLE);
+            filterImageView1.setVisibility(View.VISIBLE);
+            filterImageView2.setVisibility(View.VISIBLE);
+            filterImageView3.setVisibility(View.VISIBLE);
+            switch (view.getId()) {
+                case R.id.edit_cancel_text:
+                    mImageView.setImageBitmap(currentBmp);
+                    break;
+                case R.id.edit_done_text:
+                    currentBmp = editedBmp;
+                    mImageView.setImageBitmap(editedBmp);
+            }
+        }
+    };
+
+    private BubbleSeekBar.OnProgressChangedListener onProgressChangedListener
+            = new BubbleSeekBar.OnProgressChangedListener() {
+        @Override
+        public void onProgressChanged(
+                BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+            switch (bubbleSeekBar.getId()) {
+                case R.id.brightness_seekbar:
+                    Log.e(TAG, "onProgressChanged: brightness=" + progress);
+                    Filter brightnessFilter = new Filter();
+                    brightnessFilter.addSubFilter(new BrightnessSubfilter(progress/20));
+                    editedBmp = brightnessFilter.processFilter(currentBmp);
+                    mImageView.setImageBitmap(editedBmp);
+                    break;
+
+                case R.id.contrast_seekbar:
+                    Log.e(TAG, "onProgressChanged: contrast=" + progressFloat);
+                    Filter contrastFilter = new Filter();
+                    contrastFilter.addSubFilter(new ContrastSubfilter(progressFloat));
+                    editedBmp = contrastFilter.processFilter(currentBmp);
+                    mImageView.setImageBitmap(editedBmp);
+                    break;
+            }
+        }
+
+        @Override
+        public void getProgressOnActionUp(
+                BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+
+        }
+
+        @Override
+        public void getProgressOnFinally(
+                BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+
+        }
+    };
+
+
     public void closeEditPhotoActivity(View view) {
         super.onBackPressed();
     }
@@ -100,22 +210,22 @@ public class EditPhotoActivity extends AppCompatActivity {
         inputImage = inputImage.copy(Bitmap.Config.ARGB_8888, true);
         switch (filterRef) {
             case NORMAL:
-                editedBmp = bmp;
+                filteredBmp = bmp;
                 break;
 
             case BLUE_MESS:
-                editedBmp =  SampleFilters.getBlueMessFilter().processFilter(inputImage);
+                filteredBmp =  SampleFilters.getBlueMessFilter().processFilter(inputImage);
                 break;
 
             case NIGHT_WHISPER:
-                editedBmp = SampleFilters.getNightWhisperFilter().processFilter(inputImage);
+                filteredBmp = SampleFilters.getNightWhisperFilter().processFilter(inputImage);
                 break;
 
             case LIME_STUTTER:
-                editedBmp = SampleFilters.getLimeStutterFilter().processFilter(inputImage);
+                filteredBmp = SampleFilters.getLimeStutterFilter().processFilter(inputImage);
                 break;
         }
-        return editedBmp;
+        return filteredBmp;
     }
 
 

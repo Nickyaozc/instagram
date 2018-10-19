@@ -40,6 +40,7 @@ public class PhotoActivity extends FragmentActivity {
     private GalleryFragment galleryFragment;
     private LiveCameraFragment liveCameraFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
