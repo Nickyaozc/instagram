@@ -31,18 +31,20 @@
                 android:onClick="closeEditPhotoActivity"
                 tools:layout_marginLeft="16dp"/>
 
-            <TextView
-                android:id="@+id/toolbarCenterTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:fontFamily="sans-serif"
-                android:text="Edit"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                tools:layout_editor_absoluteX="174dp"
-                tools:layout_editor_absoluteY="19dp" />
+            <!--<TextView-->
+                <!--android:id="@+id/toolbarCenterTextView"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--android:fontFamily="sans-serif"-->
+                <!--android:text="Edit"-->
+                <!--android:textColor="@android:color/black"-->
+                <!--android:textSize="14sp"-->
+                <!--tools:layout_editor_absoluteX="174dp"-->
+                <!--tools:layout_editor_absoluteY="19dp" />-->
+
+
 
             <TextView
                 android:id="@+id/toolbarNextTextView"
@@ -77,6 +79,52 @@
             android:layout_height="match_parent"
             android:id="@+id/EditImageView"/>
             <!--android:scaleType="centerCrop"/>-->
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
+
+                <ImageView
+                    android:id="@+id/filter_1"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="40dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/filter_2"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/filter_3"
+                    app:layout_constraintStart_toEndOf="@+id/filter_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/filter_3"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginEnd="40dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
         </RelativeLayout>
     </LinearLayout>
 
