@@ -1,7 +1,6 @@
 package com.hawthorn.instagram.Utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,12 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.hawthorn.instagram.Models.Comment;
-import com.hawthorn.instagram.Models.Like;
 import com.hawthorn.instagram.Models.Photo;
 import com.hawthorn.instagram.Models.User;
 import com.hawthorn.instagram.Models.UserAccountSettings;
-import com.hawthorn.instagram.Profile.ProfileActivity;
 import com.hawthorn.instagram.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -137,6 +133,7 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 
 
         //get the profile image and username
+        Log.d(TAG, "Photo poster name: "+getItem(position).getUser_id());
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference
                 .child(mContext.getString(R.string.dbname_user_account_settings))
@@ -147,17 +144,17 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
 
-                    // currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUsername();
+                    // currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUser_name();
 
-                    Log.d(TAG, "onDataChange: UP found user: "
-                            + singleSnapshot.getValue(UserAccountSettings.class).getUsername());
-
-//                    holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getUsername());
+                    Log.d(TAG, "onDataChange: Class userAccountSetting: "
+                            + singleSnapshot.getValue(UserAccountSettings.class).getDisplay_name());
+                    holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getDisplay_name());
+//                    holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getUser_name());
 //                    holder.username.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
 //                            Log.d(TAG, "onClick: navigating to profile of: " +
-//                                    holder.user.getUsername());
+//                                    holder.user.getUser_name());
 //
 //                            Intent intent = new Intent(mContext, ProfileActivity.class);
 //                            intent.putExtra(mContext.getString(R.string.calling_activity),
@@ -166,14 +163,13 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 //                            mContext.startActivity(intent);
 //                        }
 //                    });
-
                     imageLoader.displayImage(singleSnapshot.getValue(UserAccountSettings.class).getProfile_photo(),
                             holder.mprofileImage);
 //                    holder.mprofileImage.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
 //                            Log.d(TAG, "onClick: navigating to profile of: " +
-//                                    holder.user.getUsername());
+//                                    holder.user.getUser_name());
 //
 //                            Intent intent = new Intent(mContext, ProfileActivity.class);
 //                            intent.putExtra(mContext.getString(R.string.calling_activity),
@@ -182,9 +178,6 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 //                            mContext.startActivity(intent);
 //                        }
 //                    });
-
-
-
                     holder.settings = singleSnapshot.getValue(UserAccountSettings.class);
 //                    holder.comment.setOnClickListener(new View.OnClickListener() {
 //                        @Override
@@ -215,9 +208,9 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    Log.d(TAG, "onDataChange: DOWN found user: " +
+                    Log.d(TAG, "onDataChange: Class User: " +
                             singleSnapshot.getValue(User.class).getUsername());
-                    holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getUsername());
+
                     holder.user = singleSnapshot.getValue(User.class);
                 }
 
@@ -339,7 +332,7 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUsername();
+                    currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUser_name();
                 }
 
             }
@@ -376,9 +369,9 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 //                            public void onDataChange(DataSnapshot dataSnapshot) {
 //                                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
 //                                    Log.d(TAG, "onDataChange: found like: " +
-//                                            singleSnapshot.getValue(User.class).getUsername());
+//                                            singleSnapshot.getValue(User.class).getUser_name());
 //
-//                                    holder.users.append(singleSnapshot.getValue(User.class).getUsername());
+//                                    holder.users.append(singleSnapshot.getValue(User.class).getUser_name());
 //                                    holder.users.append(",");
 //                                }
 //

@@ -34,7 +34,7 @@
 
 
 
-            <!-- username section -->
+            <!-- user_name section -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -52,12 +52,12 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/username"
+                    android:id="@+id/user_name"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="40dp"
                     android:background="@null"
                     android:inputType="textNoSuggestions"
-                    android:hint="username"/>
+                    android:hint="user_name"/>
 
             </RelativeLayout>
 

@@ -11,18 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -140,7 +132,7 @@ public class ProfileFragment extends Fragment {
 
     private void setProfileWidgets(UserSettings userSettings){
         Log.d(TAG, "setProfileWidgets: setting widgets with data retrieving from firebase database: " + userSettings.toString());
-        Log.d(TAG, "setProfileWidgets: setting widgets with data retrieving from firebase database: " + userSettings.getSettings().getUsername());
+        Log.d(TAG, "setProfileWidgets: setting widgets with data retrieving from firebase database: " + userSettings.getSettings().getUser_name());
 
 
         //User user = userSettings.getUser();
@@ -148,7 +140,7 @@ public class ProfileFragment extends Fragment {
         UniversalImageLoader.setImage(settings.getProfile_photo(), mProfilePhoto, null, "");
 
         mDisplayName.setText(settings.getDisplay_name());
-//        mUsername.setText(settings.getUsername());
+//        mUsername.setText(settings.getUser_name());
         mWebsite.setText(settings.getWebsite());
 //        Log.d(TAG, "des: "+settings.getDescription());
         mDescription.setText(settings.getDescription());
