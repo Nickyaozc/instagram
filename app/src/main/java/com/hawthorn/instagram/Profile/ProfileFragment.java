@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hawthorn.instagram.Models.Comment;
 import com.hawthorn.instagram.Models.Photo;
 import com.hawthorn.instagram.Models.UserAccountSettings;
 import com.hawthorn.instagram.Models.UserSettings;
@@ -34,6 +35,8 @@ import com.hawthorn.instagram.Utils.UniversalImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -161,7 +164,20 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for ( DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
-                    photos.add(singleSnapshot.getValue(Photo.class));
+//                    photos.add(singleSnapshot.getValue(Photo.class));
+                    Photo photo = new Photo();
+                    Map<String, Object> objectMap = (HashMap<String, Object>) singleSnapshot.getValue();
+                    try {
+                        photo.setCaption(objectMap.get(getString(R.string.field_caption)).toString());
+                        photo.setTags(objectMap.get(getString(R.string.field_tags)).toString());
+                        photo.setPhoto_id(objectMap.get(getString(R.string.field_photo_id)).toString());
+                        photo.setUser_id(objectMap.get(getString(R.string.field_user_id)).toString());
+                        photo.setDate_created(objectMap.get(getString(R.string.field_date_created)).toString());
+                        photo.setImage_path(objectMap.get(getString(R.string.field_image_path)).toString());
+                        photos.add(photo);
+                    }catch(NullPointerException e){
+                        Log.e(TAG, "onDataChange: NullPointerException: " + e.getMessage() );
+                    }
                 }
                 //setup the image grid
                 int gridWidth = getResources().getDisplayMetrics().widthPixels;
