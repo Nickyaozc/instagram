@@ -33,8 +33,12 @@ public class YouActivityFragment extends Fragment {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
     private String TAG = "YOU ACTIVITY";
-    private ArrayList<String> mActivityList;
+    private ArrayList<String> photoList1; // For the activity content.
+    private ArrayList<String> contentList; // For the activity content.
+    private ArrayList<String> photoList2; // For the activity content.
     private RecyclerView recyclerView;
+    private FirebaseUser currentUser;
+    private View view;
     public YouActivityFragment() {
         // Required empty public constructor
     }
@@ -45,18 +49,15 @@ public class YouActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-
-        mActivityList = new ArrayList<>();
-        View view = inflater.inflate(R.layout.fragment_activity, container, false);
-        recyclerView = view.findViewById(R.id.my_recycler_view);
-        ActivityAdapter activityAdapter = new ActivityAdapter(mActivityList) ;
-        recyclerView.setAdapter(activityAdapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        // Query database.
         setupFirebaseAuth();
+        this.currentUser = mAuth.getCurrentUser();
+        photoList1 = new ArrayList<>();
+        contentList = new ArrayList<>();
+        photoList2 = new ArrayList<>();
+        view = inflater.inflate(R.layout.fragment_activity, container, false);
+        // Query database.
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference.child("act").orderByChild("receiver").equalTo("3xUU");
+        Query query = reference.child("act").orderByChild("receiver").equalTo(this.currentUser.getUid());
 //        Log.d(TAG, "query:" + query);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -64,11 +65,13 @@ public class YouActivityFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
 //                    Log.d(TAG, "onDataChange: found activity:" + singleSnapshot.getValue(Act.class).toString());
-                    if(mActivityList != null && singleSnapshot.getValue(Act.class).getContent() != null){
-                        mActivityList.add(singleSnapshot.getValue(Act.class).getContent());
+                    if(contentList != null && singleSnapshot.getValue(Act.class).getContent() != null){
+                        photoList1.add(singleSnapshot.getValue(Act.class).getPhoto1());
+                        contentList.add(singleSnapshot.getValue(Act.class).getContent());
+                        photoList2.add(singleSnapshot.getValue(Act.class).getPhoto2());
                     }
-
-                    ActivityAdapter activityAdapter = new ActivityAdapter(mActivityList) ;
+                    RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
+                    ActivityAdapter activityAdapter = new ActivityAdapter(photoList1, contentList, photoList2) ;
                     recyclerView.setAdapter(activityAdapter);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(layoutManager);
@@ -105,7 +108,7 @@ public class YouActivityFragment extends Fragment {
     public void onStart() {
         super.onStart();
         // Checuk if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        this.currentUser = mAuth.getCurrentUser();
 
     }
 

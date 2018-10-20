@@ -56,6 +56,9 @@ dependencies {
     //image loader
     implementation group: 'com.nostra13.universalimageloader', name: 'universal-image-loader', version: '1.9.5'
 
+    // picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     //image croper
     implementation "com.yashoid:instacropper:1.0.6"
 

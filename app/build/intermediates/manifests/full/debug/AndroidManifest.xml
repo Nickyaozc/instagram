@@ -166,6 +166,11 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <provider
+            android:name="com.squareup.picasso.PicassoProvider"
+            android:authorities="com.hawthorn.instagram.com.squareup.picasso"
+            android:exported="false" />
+
         <activity
             android:name="com.yashoid.instacropper.InstaCropperActivity"
             android:label="@string/instacropper_title"

@@ -8,15 +8,15 @@ package com.yashoid.instacropper;
 
 public final class R {
     public static final class color {
-        public static final int instacropper_crop_color = 0x7f050051;
-        public static final int instacropper_cropper_background = 0x7f050052;
+        public static final int instacropper_crop_color = 0x7f050052;
+        public static final int instacropper_cropper_background = 0x7f050053;
     }
     public static final class drawable {
         public static final int ic_instacropper_crop = 0x7f070081;
     }
     public static final class id {
-        public static final int instacropper = 0x7f080079;
-        public static final int menu_crop = 0x7f08008c;
+        public static final int instacropper = 0x7f08007a;
+        public static final int menu_crop = 0x7f08008d;
     }
     public static final class layout {
         public static final int activity_instacropper = 0x7f0b001d;
