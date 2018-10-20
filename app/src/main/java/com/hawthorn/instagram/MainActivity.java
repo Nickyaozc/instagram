@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
     //firebase
-//    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: starting");
 
-        //setupFirebaseAuth();
+        setupFirebaseAuth();
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
         mainFrameLayout = (FrameLayout) findViewById(R.id.container);
@@ -125,16 +125,16 @@ public class MainActivity extends AppCompatActivity {
     /**
      * set up Firebase auth object
      */
-//    private void setupFirebaseAuth() {
-//        mAuth = FirebaseAuth.getInstance();
-//    }
+    private void setupFirebaseAuth() {
+        mAuth = FirebaseAuth.getInstance();
+    }
 
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
-        //checkCurrentUser(currentUser);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        checkCurrentUser(currentUser);
     }
 
     private void checkCurrentUser(FirebaseUser user) {
