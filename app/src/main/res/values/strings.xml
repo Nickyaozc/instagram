@@ -24,5 +24,8 @@
     <string name="profile_fragment">Profile</string>
     <string name="dbname_user_account_settings">user_account_setting</string>
     <string name="dbname_users">users</string>
+    <string name="dbname_user_photos">user_photos</string>
+
+
 
 </resources>
