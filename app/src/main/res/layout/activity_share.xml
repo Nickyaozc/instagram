@@ -65,7 +65,8 @@
                         android:fontFamily="sans-serif"
                         android:text="share"
                         android:textColor="@android:color/holo_blue_dark"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:onClick="share"/>
 
                 </android.support.v7.widget.Toolbar>
 
