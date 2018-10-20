@@ -8,7 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hawthorn.instagram.R;
+import com.hawthorn.instagram.Utils.FirebaseMethods;
 
 public class ShareActivity extends AppCompatActivity {
 
@@ -16,6 +20,13 @@ public class ShareActivity extends AppCompatActivity {
 
     //widgets
     private ImageView mImageView;
+
+    //firebase
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference myRef;
+    private FirebaseMethods mFirebaseMethods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
