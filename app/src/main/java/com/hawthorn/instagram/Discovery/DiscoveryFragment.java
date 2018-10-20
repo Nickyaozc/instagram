@@ -2,7 +2,9 @@ package com.hawthorn.instagram.Discovery;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,8 +19,10 @@ import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
+import com.hawthorn.instagram.Profile.ProfileActivity;
 import com.hawthorn.instagram.R;
 import com.hawthorn.instagram.Utils.UserListAdapter;
+import com.hawthorn.instagram.models.RecommendedUsers;
 import com.hawthorn.instagram.models.Users;
 
 import java.util.ArrayList;
@@ -56,6 +60,9 @@ public class DiscoveryFragment extends Fragment {
     //vars
     private List<Users> mUserList;
     private UserListAdapter mAdapter;
+    private UserListAdapter rAdapter;///zhe
+    private List<Users> rUserList;///zhe
+    private boolean searching = false;
 
 
     @Override
@@ -66,6 +73,9 @@ public class DiscoveryFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_discovery, container, false);
         mSearchParam = view.findViewById(R.id.search);
         mListView = view.findViewById(R.id.listView);
+        rUserList = new ArrayList<>();
+       // if(!searching) randomsuggestion();
+        randomsuggestion();
         initTextListener();//
 
 
@@ -79,7 +89,9 @@ public class DiscoveryFragment extends Fragment {
 
         mUserList = new ArrayList<>();
 
+
         mSearchParam.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -87,7 +99,7 @@ public class DiscoveryFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                //searching = true;
             }
 
             @Override
@@ -95,6 +107,7 @@ public class DiscoveryFragment extends Fragment {
 
                 String text = mSearchParam.getText().toString().toLowerCase(Locale.getDefault());
                 searchForMatch(text);
+                //searching = true;
             }
         });
     }
@@ -109,6 +122,7 @@ public class DiscoveryFragment extends Fragment {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
             Query query = reference.child(getString(R.string.dbname_users))
                     .orderByChild(getString(R.string.field_username)).equalTo(keyword);
+            Log.d(TAG,"PRINT query "+query);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -116,6 +130,7 @@ public class DiscoveryFragment extends Fragment {
                         Log.d(TAG, "onDataChange: found user:" + singleSnapshot.getValue(Users.class).toString());
 
                         mUserList.add(singleSnapshot.getValue(Users.class));
+                        Log.d(TAG,"SEARCH FRIENDS OBJECT:" + singleSnapshot.getValue(Users.class));
                         //update the users list view
                         updateUsersList();
 
@@ -134,18 +149,51 @@ public class DiscoveryFragment extends Fragment {
         Log.d(TAG, "updateUsersList: updating users list");
 
         mAdapter = new UserListAdapter(getContext(), R.layout.layout_user_listitem, mUserList);
+        rAdapter = new UserListAdapter(getContext(), R.layout.layout_user_listitem, rUserList);///zhe
 
         mListView.setAdapter(mAdapter);
+        mListView.setAdapter(rAdapter);///zhe
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemClick: selected user: " + mUserList.get(position).toString());
+               // Log.d(TAG, "onItemClick: selected user: " + mUserList.get(position).toString());
 
                 //navigate to profile activity
 
+
             }
         });
+    }
+
+    private void randomsuggestion(){
+        Log.d(TAG, "randomsuggestion");
+        //update the users list view
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+           // Query query = reference.child(getString(R.string.dbname_users));
+            //Log.d(TAG,"PRINT query "+query);
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
+                        Log.d(TAG, "onDataChange: randomsuggestion:" + singleSnapshot.getValue(Users.class).toString());
+
+                        rUserList.add(singleSnapshot.getValue(Users.class));
+                        Log.d(TAG,"random suggestion OBJECT:" + singleSnapshot.getValue(Users.class));
+                        updateUsersList();///zhe
+
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
     }
 
 
