@@ -10,12 +10,18 @@ import android.widget.TextView;
 
 import com.hawthorn.instagram.R;
 
-public class ActivityAdapter1 extends RecyclerView.Adapter{
+import java.util.ArrayList;
+
+public class ActivityAdapter extends RecyclerView.Adapter{
+    private ArrayList dataset;
+    public ActivityAdapter(ArrayList dataset){
+        this.dataset = dataset;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_list, parent, false);
-        return new ListViewHolder(view);
+        return new ListViewHolder(view, this.dataset);
     }
 
     @Override
@@ -25,24 +31,26 @@ public class ActivityAdapter1 extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return ActivityData.title1.length;
+        return this.dataset.size();
     }
 
     private class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView profilePhoto;
         private TextView activityText;
         private ImageView post;
-        public ListViewHolder(View itemView){
+        private ArrayList dataset;
+        public ListViewHolder(View itemView, ArrayList dataset){
             super(itemView);
             profilePhoto = (ImageView) itemView.findViewById(R.id.profilePhoto);
             activityText = (TextView) itemView.findViewById(R.id.listText);
             post = (ImageView) itemView.findViewById(R.id.post);
+            this.dataset = dataset;
             itemView.setOnClickListener(this);
         }
 
         public void bindView(int position){
             profilePhoto.setImageResource(ActivityData.profilePhoto[position]);
-            activityText.setText(ActivityData.title1[position]);
+            activityText.setText(this.dataset.toArray()[position].toString());
             post.setImageResource(ActivityData.post[position]);
 
         }
@@ -51,5 +59,6 @@ public class ActivityAdapter1 extends RecyclerView.Adapter{
 
 
     }
+
 
 }

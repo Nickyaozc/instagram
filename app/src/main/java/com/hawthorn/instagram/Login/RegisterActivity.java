@@ -2,6 +2,7 @@
 package com.hawthorn.instagram.Login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,8 +16,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hawthorn.instagram.MainActivity;
 import com.hawthorn.instagram.R;
+import com.hawthorn.instagram.Utils.Firebasemethods;
 
 public class RegisterActivity extends Activity {
 
@@ -24,6 +31,10 @@ public class RegisterActivity extends Activity {
 
     //Firebase
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private Firebasemethods firebaseMethods;
 
     //var
     EditText emailInputText;
@@ -32,13 +43,15 @@ public class RegisterActivity extends Activity {
     String email;
     String password;
     String name;
+    private String append = "";
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Log.d(TAG, "onCreate: Started");
-
+        mContext = RegisterActivity.this;
         setupFirebaseAuth();
     }
 
@@ -57,6 +70,47 @@ public class RegisterActivity extends Activity {
             createAccount(email, password);
         }
 
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("message");
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+
+                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            //1st check: Make sure the username is not already in use
+                            if(firebaseMethods.checkIfUsernameExists(name, dataSnapshot)){
+                                append = myRef.push().getKey().substring(3,10);
+                                Log.d(TAG, "onDataChange: username already exists. Appending random string to name: " + append);
+                            }
+                            name = name + append;
+
+                            //add new user to the database
+                            firebaseMethods.addNewUser(email, name, "", "", "");
+
+                            Toast.makeText(mContext, "Signup successful. Sending verification email.", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
 
     }
 
@@ -75,6 +129,7 @@ public class RegisterActivity extends Activity {
     private void setupFirebaseAuth() {
         Log.d(TAG, "setupFirebaseAuth: starting");
         mAuth = FirebaseAuth.getInstance();
+
     }
 
     public void createAccount(String email, String password) {
@@ -95,6 +150,8 @@ public class RegisterActivity extends Activity {
                         }
                     }
                 });
+
+
     }
 
 
