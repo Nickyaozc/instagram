@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hawthorn.instagram.Models.Comment;
 import com.hawthorn.instagram.Models.Like;
 import com.hawthorn.instagram.Models.Photo;
 import com.hawthorn.instagram.Models.User;
@@ -33,6 +34,12 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
+
+    public interface OnLoadMoreItemsListener{
+        void onLoadMoreItems();
+    }
+    OnLoadMoreItemsListener mOnLoadMoreItemsListener;
+
     private static final String TAG = "MainfeedListAdapter";
 
     private LayoutInflater mInflater;
@@ -75,6 +82,7 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
         if(convertView == null){
             convertView = mInflater.inflate(mLayoutResource, parent, false);
             holder = new ViewHolder();
+
             holder.username = (TextView) convertView.findViewById(R.id.homefeed_username);
             holder.image = (SquareImageView) convertView.findViewById(R.id.post_image);
             holder.heartRed = (ImageView) convertView.findViewById(R.id.image_heart_red);
@@ -99,12 +107,15 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
         //get the current users username (need for checking likes string)
         getCurrentUsername();
 
-//        get likes string
+        //get likes string
         getLikesString(holder);
 
-//        //set the comment
-//        List<Comment> comments = getItem(position).getComments();
-//        holder.comments.setText("View all " + comments.size() + " comments");
+        //set the caption
+        holder.caption.setText(getItem(position).getCaption());
+
+        //set the comment
+        List<Comment> comments = getItem(position).getComments();
+        holder.comments.setText("View all " + comments.size() + " comments");
 //        holder.comments.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -126,15 +137,12 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 //            holder.timeDetla.setText("TODAY");
 //        }
         holder.timeDetla.setText("TODAY");
-//        holder.username.setText("Martin Zhang");
-//
         //set the profile image
         final ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(getItem(position).getImage_path(), holder.image);
 
 
         //get the profile image and username
-        Log.d(TAG, "Photo poster name: "+getItem(position).getUser_id());
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference
                 .child(mContext.getString(R.string.dbname_user_account_settings))
@@ -145,17 +153,17 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
 
-                    // currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUser_name();
+                    // currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUsername();
 
-                    Log.d(TAG, "onDataChange: Class userAccountSetting: "
+                    Log.d(TAG, "onDataChange: found user: "
                             + singleSnapshot.getValue(UserAccountSettings.class).getDisplay_name());
+
                     holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getDisplay_name());
-//                    holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getUser_name());
 //                    holder.username.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
 //                            Log.d(TAG, "onClick: navigating to profile of: " +
-//                                    holder.user.getUser_name());
+//                                    holder.user.getUsername());
 //
 //                            Intent intent = new Intent(mContext, ProfileActivity.class);
 //                            intent.putExtra(mContext.getString(R.string.calling_activity),
@@ -164,13 +172,14 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 //                            mContext.startActivity(intent);
 //                        }
 //                    });
+
                     imageLoader.displayImage(singleSnapshot.getValue(UserAccountSettings.class).getProfile_photo(),
                             holder.mprofileImage);
 //                    holder.mprofileImage.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
 //                            Log.d(TAG, "onClick: navigating to profile of: " +
-//                                    holder.user.getUser_name());
+//                                    holder.user.getUsername());
 //
 //                            Intent intent = new Intent(mContext, ProfileActivity.class);
 //                            intent.putExtra(mContext.getString(R.string.calling_activity),
@@ -179,6 +188,9 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 //                            mContext.startActivity(intent);
 //                        }
 //                    });
+
+
+
                     holder.settings = singleSnapshot.getValue(UserAccountSettings.class);
 //                    holder.comment.setOnClickListener(new View.OnClickListener() {
 //                        @Override
@@ -209,7 +221,7 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    Log.d(TAG, "onDataChange: Class User: " +
+                    Log.d(TAG, "onDataChange: found user: " +
                             singleSnapshot.getValue(User.class).getUsername());
 
                     holder.user = singleSnapshot.getValue(User.class);
@@ -223,7 +235,30 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             }
         });
 
+        if(reachedEndOfList(position)){
+            loadMoreData();
+        }
+
         return convertView;
+    }
+
+    private boolean reachedEndOfList(int position){
+        return position == getCount() - 1;
+    }
+
+    private void loadMoreData(){
+
+        try{
+            mOnLoadMoreItemsListener = (OnLoadMoreItemsListener) getContext();
+        }catch (ClassCastException e){
+            Log.e(TAG, "loadMoreData: ClassCastException: " +e.getMessage() );
+        }
+
+        try{
+            mOnLoadMoreItemsListener.onLoadMoreItems();
+        }catch (NullPointerException e){
+            Log.e(TAG, "loadMoreData: ClassCastException: " +e.getMessage() );
+        }
     }
 
     public class GestureListener extends GestureDetector.SimpleOnGestureListener{
@@ -264,7 +299,7 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
                                     .child(mContext.getString(R.string.field_likes))
                                     .child(keyID)
                                     .removeValue();
-///
+
                             mReference.child(mContext.getString(R.string.dbname_user_photos))
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .child(mHolder.photo.getPhoto_id())
@@ -293,18 +328,18 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 
                 }
             });
-//            addNewLike(mHolder);
+
             return true;
         }
     }
 
     private void addNewLike(final ViewHolder holder){
         Log.d(TAG, "addNewLike: adding new like");
-        Log.d(TAG, "Photo ID in addNewLike: "+holder.photo.getPhoto_id());
+
         String newLikeID = mReference.push().getKey();
         Like like = new Like();
         like.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
+        Log.d(TAG, "In line 342, photo ID: "+holder.photo.getPhoto_id());
         mReference.child(mContext.getString(R.string.dbname_photos))
                 .child(holder.photo.getPhoto_id())
                 .child(mContext.getString(R.string.field_likes))
@@ -333,7 +368,8 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUser_name();
+                    currentUsername = singleSnapshot.getValue(User.class).getUsername();
+                    Log.d(TAG,"In line 372, current username: "+currentUsername);
                 }
 
             }
@@ -347,7 +383,6 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 
     private void getLikesString(final ViewHolder holder){
         Log.d(TAG, "getLikesString: getting likes string");
-
         try{
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
             Query query = reference
@@ -359,8 +394,6 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     holder.users = new StringBuilder();
                     for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                        String photo_id_temp = singleSnapshot.getValue(Photo.class).toString();
-                        Log.d(TAG, "Photo ID: "+photo_id_temp);
                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
                         Query query = reference
                                 .child(mContext.getString(R.string.dbname_users))
@@ -376,9 +409,9 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
                                     holder.users.append(singleSnapshot.getValue(User.class).getUsername());
                                     holder.users.append(",");
                                 }
-
                                 String[] splitUsers = holder.users.toString().split(",");
-
+                                Log.d(TAG, "In line 415, users to string: "+holder.users.toString());
+                                Log.d(TAG, "Current username: "+currentUsername);
                                 if(holder.users.toString().contains(currentUsername + ",")){
                                     holder.likeByCurrentUser = true;
                                 }else{
@@ -399,13 +432,13 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
                                             + " and " + splitUsers[2];
 
                                 }
-                                else if(length == 4){
-                                    holder.likesString = "Liked by " + splitUsers[0]
-                                            + ", " + splitUsers[1]
-                                            + ", " + splitUsers[2]
-                                            + " and " + splitUsers[3];
-                                }
-                                else if(length > 4){
+//                                else if(length == 4){
+//                                    holder.likesString = "Liked by " + splitUsers[0]
+//                                            + ", " + splitUsers[1]
+//                                            + ", " + splitUsers[2]
+//                                            + " and " + splitUsers[3];
+//                                }
+                                else if(length > 3){
                                     holder.likesString = "Liked by " + splitUsers[0]
                                             + ", " + splitUsers[1]
                                             + ", " + splitUsers[2]
