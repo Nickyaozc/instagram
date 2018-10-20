@@ -20,6 +20,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hawthorn.instagram.MainActivity;
 import com.hawthorn.instagram.Models.Photo;
+import com.hawthorn.instagram.Models.User;
+import com.hawthorn.instagram.Models.UserAccountSettings;
 import com.hawthorn.instagram.R;
 
 import java.text.SimpleDateFormat;
@@ -204,5 +206,44 @@ public class FirebaseMethods {
             count++;
         }
         return count;
+    }
+
+    /**
+     * Add information to the users nodes
+     * Add information to the user_account_settings node
+     * @param email
+     * @param username
+     * @param description
+     * @param website
+     * @param profile_photo
+     */
+    public void addNewUser(String email, String username, String description, String website, String profile_photo){
+
+        User user = new User( userID,  1,  email,  StringManipulation.condenseUsername(username) );
+        if (mAuth.getCurrentUser() != null) {
+            userID = mAuth.getCurrentUser().getUid();
+        }
+        Log.e(TAG, "addNewUser: userID=null: " + (userID==null));
+        myRef.child(mContext.getString(R.string.dbname_users))
+                .child(userID)
+                .setValue(user);
+
+
+        UserAccountSettings settings = new UserAccountSettings(
+                description,
+                username,
+                0,
+                0,
+                0,
+                profile_photo,
+                StringManipulation.condenseUsername(username),
+                website,
+                userID
+        );
+
+        myRef.child(mContext.getString(R.string.dbname_user_account_settings))
+                .child(userID)
+                .setValue(settings);
+
     }
 }
