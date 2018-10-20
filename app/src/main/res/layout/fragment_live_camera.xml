@@ -24,4 +24,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <ImageView
+        android:id="@+id/flash_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/flash_on"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraTextureView"
+        app:layout_constraintEnd_toEndOf="@+id/cameraTextureView" />
+
 </android.support.constraint.ConstraintLayout>

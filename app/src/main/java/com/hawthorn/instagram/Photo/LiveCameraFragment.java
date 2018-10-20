@@ -75,6 +75,8 @@ public class LiveCameraFragment extends Fragment
     private static final String FRAGMENT_DIALOG = "dialog";
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private String mCurrentPhotoPath;
+    private Boolean isFlashOn;
+
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -86,9 +88,9 @@ public class LiveCameraFragment extends Fragment
     //widgets
     private TextureView mTextureView;
     private Button mPictureBtn;
+    private ImageView flashButton;
 
     //camera2
-    private CameraManager mCamera;
     private CameraDevice mCameraDevice;
     private String mCameraId;
     private CameraCaptureSession mCameraCaptureSesson;
@@ -111,9 +113,16 @@ public class LiveCameraFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_live_camera, container, false);
+
+        // init var
+        isFlashOn = false;
+
+        // init view
         mPictureBtn = (Button) view.findViewById(R.id.takephotoBtn);
         mTextureView = (TextureView) view.findViewById(R.id.cameraTextureView);
         mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+        flashButton = (ImageView) view.findViewById(R.id.flash_button);
+        flashButton.setOnClickListener(flashButtonListener);
         Log.e(TAG, "onCreateView: started");
         setButtonListener(mPictureBtn);
 
@@ -130,6 +139,19 @@ public class LiveCameraFragment extends Fragment
             }
         });
     }
+
+    private View.OnClickListener flashButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (isFlashOn) {
+                flashButton.setImageResource(R.drawable.flash_on);
+                isFlashOn = false;
+            } else {
+                flashButton.setImageResource(R.drawable.flash_off);
+                isFlashOn = true;
+            }
+        }
+    };
 
     //--------------------------------- TextureView ---------------------------------
 
@@ -156,6 +178,8 @@ public class LiveCameraFragment extends Fragment
         }
 
     };
+
+    
 
     //--------------------------------- Camera2 ---------------------------------
 
@@ -218,12 +242,18 @@ public class LiveCameraFragment extends Fragment
             outputSurfaces.add(reader.getSurface());
             outputSurfaces.add(new Surface(mTextureView.getSurfaceTexture()));
             final CaptureRequest.Builder captureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+
+            //set the flash mode
+            captureBuilder.set(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
+
             captureBuilder.addTarget(reader.getSurface());
             captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+
             // Orientation
             int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
 //            final File file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+
             try {
                 mFile = createImageFile();
             } catch (IOException ex) {
