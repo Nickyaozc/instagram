@@ -58,9 +58,9 @@ public class ActivityAdapter extends RecyclerView.Adapter{
         }
 
         public void bindView(int position){
-//            Glide.with(this).load("http://goo.gl/gEgYUd").into(imageView);
+
             activityText.setText(this.contentList.get(position).toString());
-//            post.setImageResource(this.photoList2.get(position).toString());
+
             Picasso.get().load(this.photoList1.get(position).toString()).into(profilePhoto);
             Picasso.get().load(this.photoList2.get(position).toString()).into(post);
         }
