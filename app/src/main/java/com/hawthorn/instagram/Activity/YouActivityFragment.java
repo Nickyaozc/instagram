@@ -17,9 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hawthorn.instagram.Models.Act;
 import com.hawthorn.instagram.R;
-import com.hawthorn.instagram.Utils.Firebasemethods;
-import com.hawthorn.instagram.models.Act;
 
 import java.util.ArrayList;
 
@@ -33,9 +32,8 @@ public class YouActivityFragment extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
-    private Firebasemethods mFirebaseMethods;
     private String TAG = "YOU ACTIVITY";
-    private ArrayList mActivityList;
+    private ArrayList<String> mActivityList;
     private RecyclerView recyclerView;
     public YouActivityFragment() {
         // Required empty public constructor
@@ -66,7 +64,10 @@ public class YouActivityFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
 //                    Log.d(TAG, "onDataChange: found activity:" + singleSnapshot.getValue(Act.class).toString());
-                    mActivityList.add(singleSnapshot.getValue(Act.class).getContent());
+                    if(mActivityList != null && singleSnapshot.getValue(Act.class).getContent() != null){
+                        mActivityList.add(singleSnapshot.getValue(Act.class).getContent());
+                    }
+
                     ActivityAdapter activityAdapter = new ActivityAdapter(mActivityList) ;
                     recyclerView.setAdapter(activityAdapter);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());

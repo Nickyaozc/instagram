@@ -1,5 +1,9 @@
 package com.hawthorn.instagram.Photo;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,11 +12,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hawthorn.instagram.R;
+import com.hawthorn.instagram.Utils.CustomViewPager;
+
+import org.w3c.dom.Text;
 
 public class PhotoActivity extends FragmentActivity {
     //var, const
@@ -22,10 +31,15 @@ public class PhotoActivity extends FragmentActivity {
     private static final int NUM_PAGES = 2;
 
     //widgets
-    private ViewPager mPager;
+    private CustomViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private TextView tbCenterTextView;
     private TextView tbCancelTextView;
+    private TextView tbNextTextView;
+    private Toolbar mToolbar;
+    private GalleryFragment galleryFragment;
+    private LiveCameraFragment liveCameraFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +48,21 @@ public class PhotoActivity extends FragmentActivity {
         setupViewPaper();
         tbCenterTextView = (TextView) findViewById(R.id.toolbarCenterTextView);
         tbCancelTextView = (TextView) findViewById(R.id.toolbarCancelTextView);
+        tbNextTextView = (TextView) findViewById(R.id.toolbarNextTextView);
+        tbNextTextView.setVisibility(View.GONE);
+        mToolbar = (Toolbar) findViewById(R.id.photo_toolbar);
         Log.d(TAG, "onCreate: Started");
         setupPageChangeListener();
     }
 
-
-
     public void closePhotoActivity(View view) {
+        Log.d(TAG, "closePhotoActivity: closing the photo activity");
         super.onBackPressed();
+    }
+
+    public void showEditPhotoActivity(View view) {
+        galleryFragment.crop();
+        Log.d(TAG, "showEditPhotoActivity: crop and navigate to the EditPhotoActivity");
     }
 
     /**
@@ -56,9 +77,13 @@ public class PhotoActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new GalleryFragment();
-            }else {
-                return new CameraFragment();
+                galleryFragment = new GalleryFragment();
+                return galleryFragment;
+            } else if (position == 1){
+                //return new CameraFragment();
+                return new LiveCameraFragment();
+            } else {
+                return new EditPhotoFragment();
             }
         }
 
@@ -68,6 +93,7 @@ public class PhotoActivity extends FragmentActivity {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setupViewPaper() {
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -93,8 +119,11 @@ public class PhotoActivity extends FragmentActivity {
             public void onPageSelected(int position) {
                 if (position == 0) {
                     tbCenterTextView.setText("gallery");
+                    tbNextTextView.setVisibility(View.VISIBLE);
                 }else{
                     tbCenterTextView.setText("camera");
+                    tbNextTextView.setVisibility(View.GONE);
+
                 }
             }
             @Override
@@ -104,4 +133,10 @@ public class PhotoActivity extends FragmentActivity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        overridePendingTransition(0, 0);
+        super.onPause();
+    }
+    
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Photo.GalleryFragment">
 
     <RelativeLayout
@@ -22,18 +23,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="60
-">
-            <ImageView
+            android:layout_weight="60">
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/galleryImageView"-->
+                <!--android:scaleType="centerCrop"/>-->
+            <com.yashoid.instacropper.InstaCropperView
+                android:id="@+id/instacropper"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/galleryImageView"
-                android:scaleType="centerCrop"/>
+                android:layout_height="match_parent" />
 
             <ProgressBar
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:id="@+id/progreeBar"
+                android:id="@+id/progressBar"
                 android:layout_centerInParent="true"/>
 
         </RelativeLayout>
@@ -43,7 +47,7 @@
             android:layout_height="0dp"
             android:layout_weight="40"
             android:id="@+id/gridView"
-            android:numColumns="5"
+            android:numColumns="4"
             android:verticalSpacing="1dp"
             android:horizontalSpacing="1dp"
             android:stretchMode="none"

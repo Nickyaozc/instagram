@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_bar);
         mainFrameLayout = (FrameLayout) findViewById(R.id.container);
+        mToolbar = findViewById(R.id.my_toolbar);
         homeFragment = new HomeFragment();
         discoveryFragment = new DiscoveryFragment();
         activityFragment = new ActivityMasterFragment();
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 
         setFragment(homeFragment);
+        mToolbar.setLogo(R.drawable.instagram_textlogo);
         setUpBottomNavigationListener();
     }
 
@@ -85,23 +87,28 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (menuItem.getItemId()) {
                         case R.id.nav_home:
+                            mToolbar.setLogo(R.drawable.instagram_textlogo);
                             setFragment(homeFragment);
                             return true;
 
                         case R.id.nav_discovery:
+                            mToolbar.setLogo(null);
                             setFragment(discoveryFragment);
                             return true;
 
                         case R.id.nav_photo:
+                            mToolbar.setLogo(null);
                             showPhotoActivity();
                             return false;
 
                         case R.id.nav_activity:
+                            mToolbar.setLogo(null);
                             setFragment(activityFragment);
                             setActivityToolbar();
                             return true;
 
                         case R.id.nav_profile:
+                            mToolbar.setLogo(null);
                             showProfileActivity();
 //                            setFragment(profileFragment);
                             return true;
@@ -133,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Checuk if user is signed in (non-null) and update UI accordingly.
+        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         checkCurrentUser(currentUser);
     }
