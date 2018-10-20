@@ -145,7 +145,6 @@ public class ProfileFragment extends Fragment {
 
         //User user = userSettings.getUser();
         UserAccountSettings settings = userSettings.getSettings();
-
         UniversalImageLoader.setImage(settings.getProfile_photo(), mProfilePhoto, null, "");
 
         mDisplayName.setText(settings.getDisplay_name());
@@ -158,32 +157,6 @@ public class ProfileFragment extends Fragment {
         mFollowers.setText(String.valueOf(settings.getFollowers()));
         mProgressBar.setVisibility(View.GONE);
     }
-
-    // Setting up the profile toolbar
-//    private void setupToolbar(){
-//        ((ProfileActivity)getActivity()).setSupportActionBar(toolbar);
-//        profileMenu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d(TAG, "onClick: navigating to account settings.");
-//                Intent intent = new Intent(mContext, AccountSettingActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-
-    /**
-     //     * BottomNavigationView setup
-     //     */
-//    private void setupBottomNavigationView(){
-//        Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
-//        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView);
-//        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationView);
-//        Menu menu = bottomNavigationView.getMenu();
-//        MenuItem menuItem = menu.getItem(ACTIVITY_NUM);
-//        menuItem.setChecked(true);
-//    }
-/**/
 
     private void setupGridView(){
         Log.d(TAG, "setupGridView: Setting up image grid.");
