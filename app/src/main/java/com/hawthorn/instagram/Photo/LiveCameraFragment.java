@@ -76,6 +76,7 @@ public class LiveCameraFragment extends Fragment
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private String mCurrentPhotoPath;
     private Boolean isFlashOn;
+    private Boolean isGridOn;
 
 
     static {
@@ -89,6 +90,8 @@ public class LiveCameraFragment extends Fragment
     private TextureView mTextureView;
     private Button mPictureBtn;
     private ImageView flashButton;
+    private ImageView gridButton;
+    private ImageView previewGrid;
 
     //camera2
     private CameraDevice mCameraDevice;
@@ -116,6 +119,7 @@ public class LiveCameraFragment extends Fragment
 
         // init var
         isFlashOn = false;
+        isGridOn = false;
 
         // init view
         mPictureBtn = (Button) view.findViewById(R.id.takephotoBtn);
@@ -123,6 +127,9 @@ public class LiveCameraFragment extends Fragment
         mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         flashButton = (ImageView) view.findViewById(R.id.flash_button);
         flashButton.setOnClickListener(flashButtonListener);
+        gridButton = (ImageView) view.findViewById(R.id.grid_button);
+        gridButton.setOnClickListener(gridButtonListener);
+        previewGrid = (ImageView) view.findViewById(R.id.preview_grid);
         Log.e(TAG, "onCreateView: started");
         setButtonListener(mPictureBtn);
 
@@ -153,6 +160,20 @@ public class LiveCameraFragment extends Fragment
         }
     };
 
+    private View.OnClickListener gridButtonListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            if (isGridOn) {
+                previewGrid.setVisibility(View.INVISIBLE);
+                isGridOn = false;
+            } else {
+                previewGrid.setVisibility(View.VISIBLE);
+                isGridOn = true;
+            }
+        }
+    };
+
     //--------------------------------- TextureView ---------------------------------
 
     private final TextureView.SurfaceTextureListener mSurfaceTextureListener
@@ -179,7 +200,7 @@ public class LiveCameraFragment extends Fragment
 
     };
 
-    
+
 
     //--------------------------------- Camera2 ---------------------------------
 
