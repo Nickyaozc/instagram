@@ -5,29 +5,33 @@
     build-mode="COLD"
     density="xhdpi"
     format="10"
+    ir-eligibility="METHOD_DELETED"
     plugin-version="3.1.4"
-    timestamp="1540050501431"
+    timestamp="1540088286368"
     token="-9196674146644892276"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="5004" />
+        duration="5623" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="128" />
     <task
         name="verifier"
-        duration="0" />
+        duration="11" />
+
+    <artifact
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
+        type="SPLIT" />
 
     <build
         build-mode="FULL"
-        ir-eligibility="CLASS_ADDED"
-        timestamp="1540047097911"
-        verifier="COLD_SWAP_REQUESTED" >
+        timestamp="1540087350799"
+        verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/resources/instant-run/debug/resources-debug.apk"
             type="SPLIT" />
@@ -35,13 +39,13 @@
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
-            type="SPLIT" />
-        <artifact
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
         <artifact
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
+            type="SPLIT" />
+        <artifact
+            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
             type="SPLIT" />
         <artifact
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
@@ -70,16 +74,12 @@
     </build>
     <build
         build-mode="COLD"
-        ir-eligibility="FIELD_ADDED"
-        timestamp="1540049122251"
+        ir-eligibility="METHOD_DELETED"
+        timestamp="1540088286368"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
     </build>
-    <build
-        build-mode="COLD"
-        timestamp="1540050501431"
-        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>
