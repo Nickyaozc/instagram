@@ -193,7 +193,6 @@ public class RegisterActivity extends Activity {
         }
     }
 
-
     public void createAccount(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -204,6 +203,7 @@ public class RegisterActivity extends Activity {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             showMainActivity();
+                            firebaseMethods.setUserID(mAuth.getCurrentUser().getUid());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());

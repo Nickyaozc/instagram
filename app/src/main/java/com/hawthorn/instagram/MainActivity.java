@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         profileFragment = new ProfileFragment();
         mToolbar = (Toolbar) findViewById(R.id.my_toolbar);
 
-        setFragment(homeFragment);
-        mToolbar.setLogo(R.drawable.instagram_textlogo);
+//        setFragment(homeFragment);
+//        mToolbar.setLogo(R.drawable.instagram_textlogo);
         setUpBottomNavigationListener();
     }
 
@@ -87,30 +87,28 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (menuItem.getItemId()) {
                         case R.id.nav_home:
-                            mToolbar.setLogo(R.drawable.instagram_textlogo);
+//                            mToolbar.setLogo(R.drawable.instagram_textlogo);
                             setFragment(homeFragment);
                             return true;
 
                         case R.id.nav_discovery:
-                            mToolbar.setLogo(null);
+//                            mToolbar.setLogo(null);
                             setFragment(discoveryFragment);
                             return true;
 
                         case R.id.nav_photo:
-                            mToolbar.setLogo(null);
+//                            mToolbar.setLogo(null);
                             showPhotoActivity();
                             return false;
 
                         case R.id.nav_activity:
-                            mToolbar.setLogo(null);
+//                            mToolbar.setLogo(null);
                             setFragment(activityFragment);
                             setActivityToolbar();
                             return true;
 
                         case R.id.nav_profile:
-                            mToolbar.setLogo(null);
-                            showProfileActivity();
-//                            setFragment(profileFragment);
+                            setFragment(profileFragment);
                             return true;
 
                         default:
@@ -150,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             // User is signed in
             Log.d(TAG, "checkCurrentUser: signed_in: " + user.getUid());
+            setFragment(homeFragment);
         } else {
             // User is signed out
             Log.d(TAG, "checkCurrentUser: signed_out");

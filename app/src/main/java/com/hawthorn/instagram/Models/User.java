@@ -29,7 +29,9 @@ public class User implements Parcelable{
         username = in.readString();
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
+
+    public static final Parcelable.Creator<User> CREATOR = new Creator<User>() {
+
         @Override
         public User createFromParcel(Parcel in) {
             return new User(in);
@@ -76,11 +78,11 @@ public class User implements Parcelable{
 
     @Override
     public String toString() {
-        return "User{" +
-                "user_id='" + user_id + '\'' +
-                ", phone_number='" + phone_number + '\'' +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
+        return "User:" +
+                "user_id = '" + user_id + '\'' +
+                ", phone_number = '" + phone_number + '\'' +
+                ", email = '" + email + '\'' +
+                ", username = '" + username + '\'' +
                 '}';
     }
 
@@ -97,3 +99,4 @@ public class User implements Parcelable{
         dest.writeString(username);
     }
 }
+

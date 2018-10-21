@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Instagram</string>
-    <string name="username_edit_text">Enter your username</string>
+    <string name="username_edit_text">Enter your user_name</string>
     <string name="password_edit_text">Enter your password</string>
     <string name="button_sign_up">Sign Up</string>
     <string name="nav_home">home</string>
@@ -22,19 +22,15 @@
     <string name="cropped_image">cropped image</string>
     <string name="edited_image">edited image</string>
 
-    <!-- Firebase database fields -->
-    <string name="auth_failed">Failed to Authenticate</string>
-    <string name="auth_success">Authentication Success</string>
 
     <!-- Firebase database fields -->
-    <string name="dbname_users">users</string>
-    <string name="dbname_user_account_settings">user_account_settings</string>
-    <string name="dbname_photos">photos</string>
-    <string name="dbname_user_photos">user_photos</string>
-    <string name="dbname_following">following</string>
     <string name="dbname_followers">followers</string>
     <string name="dbname_stories">stories</string>>
-
+    <string name="dbname_user_account_settings">user_account_settings</string>
+    <string name="dbname_users">users</string>
+    <string name="dbname_user_photos">user_photos</string>
+    <string name="dbname_photos">photos</string>
+    <string name="dbname_following">following</string>
     <!-- photo types -->
     <string name="new_photo">new_photo</string>
     <string name="profile_photo">profile_photo</string>
@@ -45,14 +41,6 @@
     <string name="field_website">website</string>
     <string name="field_description">description</string>
     <string name="field_phone_number">phone_number</string>
-    <string name="field_user_id">user_id</string>
-    <string name="field_likes">likes</string>
-    <string name="field_caption">caption</string>
-    <string name="field_date_created">date_created</string>
-    <string name="field_photo_id">photo_id</string>
-    <string name="field_tags">tags</string>
-    <string name="field_image_path">image_path</string>
-    <string name="field_comments">comments</string>
     <string name="field_comment">comment</string>
     <string name="field_image_uri">image_uri</string>
     <string name="field_video_uri">video_uri</string>
@@ -61,5 +49,17 @@
     <string name="field_duration">duration</string>
     <string name="field_profile_photo">profile_photo</string>
     <string name="field_timestamp">timestamp</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="profile_fragment">Profile</string>
+
+    <string name="field_user_id">user_id</string>
+    <string name="field_caption">caption</string>
+    <string name="field_tags">tags</string>
+    <string name="field_photo_id">photo_id</string>
+    <string name="field_date_created">date_created</string>
+    <string name="field_image_path">image_path</string>
+    <string name="field_comments">comments</string>
+    <string name="field_likes">likes</string>
 
 </resources>

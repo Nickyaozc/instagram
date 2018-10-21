@@ -8,7 +8,7 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextureView
+    <com.hawthorn.instagram.Utils.AutoFitTextureView
         android:id="@+id/cameraTextureView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -23,5 +23,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/flash_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/flash_on"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraTextureView"
+        app:layout_constraintEnd_toEndOf="@+id/cameraTextureView" />
+
+    <ImageView
+        android:id="@+id/preview_grid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/camera_preview_grid"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraTextureView"
+        app:layout_constraintEnd_toEndOf="@+id/cameraTextureView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cameraTextureView"
+        app:layout_constraintTop_toTopOf="@+id/cameraTextureView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/grid_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/grid"
+        app:layout_constraintBottom_toBottomOf="@+id/preview_grid"
+        app:layout_constraintStart_toStartOf="@+id/preview_grid" />
 
 </android.support.constraint.ConstraintLayout>

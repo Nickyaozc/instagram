@@ -1,3 +1,4 @@
+//This file is learnt with CodingWithMitch according to his courses on YouTube, the link is https://youtu.be/qpJRgr6HzAw
 package com.hawthorn.instagram.Utils;
 
 import android.content.Context;
@@ -8,14 +9,18 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hawthorn.instagram.MainActivity;
@@ -28,6 +33,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import com.hawthorn.instagram.Models.User;
+import com.hawthorn.instagram.Models.UserAccountSettings;
+import com.hawthorn.instagram.Models.UserSettings;
+import com.hawthorn.instagram.R;
+
 
 public class FirebaseMethods {
 
@@ -57,6 +68,10 @@ public class FirebaseMethods {
         }
     }
 
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
     public void uploadNewPhoto(String photoType, final String caption,final int count, final String imgUrl,
                                Bitmap bm){
         Log.d(TAG, "uploadNewPhoto: attempting to uplaod new photo.");
@@ -68,7 +83,7 @@ public class FirebaseMethods {
             Log.d(TAG, "uploadNewPhoto: uploading NEW photo.");
 
             String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            StorageReference storageReference = mStorageReference
+            final StorageReference storageReference = mStorageReference
                     .child(filePaths.FIREBASE_IMAGE_STORAGE + "/" + user_id + "/photo" + (count + 1));
 
             byte[] bytes = ImageManager.getBytesFromBitmap(bm, 100);
@@ -76,19 +91,32 @@ public class FirebaseMethods {
             UploadTask uploadTask;
             uploadTask = storageReference.putBytes(bytes);
 
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri firebaseUrl = taskSnapshot.getUploadSessionUri();
-
-                    Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
-
+                public void onSuccess(Uri uri) {
                     //add the new photo to 'photos' node and 'user_photos' node
-                    addPhotoToDatabase(caption, firebaseUrl.toString());
+                    addPhotoToDatabase(caption, uri.toString());
 
                     //navigate to the main feed so the user can see their photo
                     Intent intent = new Intent(mContext, MainActivity.class);
                     mContext.startActivity(intent);
+                }
+            });
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+////                    Uri firebaseUrl = taskSnapshot.getUploadSessionUri();
+//                    Task<Uri> firebaseUrl = storageReference.getDownloadUrl();
+
+                    Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
+//
+//                    //add the new photo to 'photos' node and 'user_photos' node
+//                    addPhotoToDatabase(caption, firebaseUrl.toString());
+//
+//                    //navigate to the main feed so the user can see their photo
+//                    Intent intent = new Intent(mContext, MainActivity.class);
+//                    mContext.startActivity(intent);
                 }
             }) .addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -111,60 +139,6 @@ public class FirebaseMethods {
             });
 
         }
-        //case new profile photo
-//        else if(photoType.equals(mContext.getString(R.string.profile_photo))){
-//            Log.d(TAG, "uploadNewPhoto: uploading new PROFILE photo");
-//
-//
-//            String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//            StorageReference storageReference = mStorageReference
-//                    .child(filePaths.FIREBASE_IMAGE_STORAGE + "/" + user_id + "/profile_photo");
-//
-//            //convert image url to bitmap
-//            if(bm == null){
-//                bm = ImageManager.getBitmap(imgUrl);
-//            }
-//            byte[] bytes = ImageManager.getBytesFromBitmap(bm, 100);
-//
-//            UploadTask uploadTask = null;
-//            uploadTask = storageReference.putBytes(bytes);
-//
-//            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    Uri firebaseUrl = taskSnapshot.getDownloadUrl();
-//
-//                    Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
-//
-//                    //insert into 'user_account_settings' node
-//                    setProfilePhoto(firebaseUrl.toString());
-//
-//                    ((AccountSettingsActivity)mContext).setViewPager(
-//                            ((AccountSettingsActivity)mContext).pagerAdapter
-//                                    .getFragmentNumber(mContext.getString(R.string.edit_profile_fragment))
-//                    );
-//
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.d(TAG, "onFailure: Photo upload failed.");
-//                    Toast.makeText(mContext, "Photo upload failed ", Toast.LENGTH_SHORT).show();
-//                }
-//            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-//
-//                    if(progress - 15 > mPhotoUploadProgress){
-//                        Toast.makeText(mContext, "photo upload progress: " + String.format("%.0f", progress) + "%", Toast.LENGTH_SHORT).show();
-//                        mPhotoUploadProgress = progress;
-//                    }
-//
-//                    Log.d(TAG, "onProgress: upload progress: " + progress + "% done");
-//                }
-//            });
-//        }
 
     }
 
@@ -197,13 +171,17 @@ public class FirebaseMethods {
     }
 
 
-    public int getImageCount(DataSnapshot dataSnapshot) {
+     public int getImageCount(DataSnapshot dataSnapshot) {
         int count = 0;
-        for(DataSnapshot ds: dataSnapshot
-                .child(mContext.getString(R.string.dbname_user_photos))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .getChildren()){
-            count++;
+        try {
+            for (DataSnapshot ds : dataSnapshot
+                    .child(mContext.getString(R.string.dbname_user_photos))
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .getChildren()) {
+                count++;
+            }
+        } catch (Exception e) {
+            return count;
         }
         return count;
     }
@@ -218,7 +196,7 @@ public class FirebaseMethods {
      * @param profile_photo
      */
     public void addNewUser(String email, String username, String description, String website, String profile_photo){
-
+        Log.e(TAG, "addNewUser: " + userID);
         User user = new User( userID,  1,  email,  StringManipulation.condenseUsername(username) );
         if (mAuth.getCurrentUser() != null) {
             userID = mAuth.getCurrentUser().getUid();
@@ -246,4 +224,95 @@ public class FirebaseMethods {
                 .setValue(settings);
 
     }
+
+
+    public UserSettings getUserSettings(DataSnapshot dataSnapshot){
+        Log.d(TAG, "getUserAccountSettings: retrieving user account settings from firebase.");
+        UserAccountSettings settings  = new UserAccountSettings();
+        User user = new User();
+
+        for(DataSnapshot ds: dataSnapshot.getChildren()){
+
+            // user_account_settings node
+            if(ds.getKey().equals(mContext.getString(R.string.dbname_user_account_settings))){
+                Log.d(TAG, "getUserAccountSettings: datasnapshot: " + ds);
+
+                try{
+
+                    settings.setDisplay_name(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getDisplay_name()
+                    );
+                    settings.setUser_name(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getUser_name()
+                    );
+                    settings.setWebsite(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getWebsite()
+                    );
+                    settings.setDescription(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getDescription()
+                    );
+                    settings.setProfile_photo(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getProfile_photo()
+                    );
+                    settings.setPosts(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getPosts()
+                    );
+                    settings.setFollowing(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getFollowing()
+                    );
+                    settings.setFollowers(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getFollowers()
+                    );
+
+                    Log.d(TAG, "getUserAccountSettings: retrieved user_account_settings information: " + settings.toString());
+                }catch (NullPointerException e){
+                    Log.e(TAG, "getUserAccountSettings: NullPointerException: " + e.getMessage() );
+                }
+            }
+        }
+        return new UserSettings(user, settings);
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

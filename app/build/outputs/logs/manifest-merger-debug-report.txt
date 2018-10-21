@@ -40,6 +40,7 @@ MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/weirenchen/.grad
 MERGED from [com.squareup.picasso:picasso:2.71828] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/picasso-2.71828.aar/be6a0141e859c2b8baaef12e0b310bd8/AndroidManifest.xml:2:1-14:12
 MERGED from [com.yashoid:instacropper:1.0.6] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/instacropper-1.0.6.aar/793622df80928ad67b172e09c366ce12/AndroidManifest.xml:2:1-18:12
 MERGED from [com.xw.repo:bubbleseekbar:3.19-lite] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/bubbleseekbar-3.19-lite.aar/4a1f4a8d291b6cbe854bc4ded080e4ea/AndroidManifest.xml:2:1-14:12
+MERGED from [de.hdodenhof:circleimageview:2.2.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/circleimageview-2.2.0.aar/2cdc2983e51bfd2b9cd607f7d5084e1b/AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:support-fragment:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/2be3d3035fb03687749235916a1da2e7/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/3ab166ac74edf761459e04fd8d7dec3e/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-core-ui:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/ef3ae8cf938b1361297209c4e4d61a08/AndroidManifest.xml:17:1-22:12
@@ -97,6 +98,22 @@ uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from /Users/weirenchen/Desktop/instagram/app/src/main/AndroidManifest.xml:7:5-81
 	android:name
 		ADDED from /Users/weirenchen/Desktop/instagram/app/src/main/AndroidManifest.xml:7:22-78
+uses-permission#android.permission.INTERNET
+ADDED from /Users/weirenchen/Desktop/instagram/app/src/main/AndroidManifest.xml:8:5-67
+MERGED from [com.google.firebase:firebase-database:16.0.3] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-database-16.0.3.aar/48d41edd726b6f0e20a046748f4924b3/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-database:16.0.3] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-database-16.0.3.aar/48d41edd726b6f0e20a046748f4924b3/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:17.0.2] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-impl-17.0.2.aar/80d014504e17491a24ae6b3adc859542/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-measurement-connector-impl:17.0.2] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-impl-17.0.2.aar/80d014504e17491a24ae6b3adc859542/AndroidManifest.xml:22:5-67
+MERGED from [com.google.firebase:firebase-analytics:16.0.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-analytics-16.0.4.aar/be1bbee30ee224ef32a03f1d1b9100c2/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-analytics:16.0.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-analytics-16.0.4.aar/be1bbee30ee224ef32a03f1d1b9100c2/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-storage:16.0.3] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-storage-16.0.3.aar/f90edff4faa368ed58ffb661da7c647e/AndroidManifest.xml:24:5-67
+MERGED from [com.google.firebase:firebase-storage:16.0.3] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-storage-16.0.3.aar/f90edff4faa368ed58ffb661da7c647e/AndroidManifest.xml:24:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:16.2.2] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-16.2.2.aar/d1989c044f75fd662975b4f910376c72/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-analytics-impl:16.2.2] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-16.2.2.aar/d1989c044f75fd662975b4f910376c72/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-iid:17.0.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.4.aar/fa265cda6597dbf604ff0d64f1666beb/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-iid:17.0.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.4.aar/fa265cda6597dbf604ff0d64f1666beb/AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from /Users/weirenchen/Desktop/instagram/app/src/main/AndroidManifest.xml:8:22-64
 application
 ADDED from /Users/weirenchen/Desktop/instagram/app/src/main/AndroidManifest.xml:9:5-49:19
 MERGED from [com.android.support:design:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/9e3df21c3b249d08641025556c761e54/AndroidManifest.xml:22:5-20
@@ -151,6 +168,8 @@ MERGED from [com.yashoid:instacropper:1.0.6] /Users/weirenchen/.gradle/caches/tr
 MERGED from [com.yashoid:instacropper:1.0.6] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/instacropper-1.0.6.aar/793622df80928ad67b172e09c366ce12/AndroidManifest.xml:11:5-16:19
 MERGED from [com.xw.repo:bubbleseekbar:3.19-lite] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/bubbleseekbar-3.19-lite.aar/4a1f4a8d291b6cbe854bc4ded080e4ea/AndroidManifest.xml:12:5-20
 MERGED from [com.xw.repo:bubbleseekbar:3.19-lite] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/bubbleseekbar-3.19-lite.aar/4a1f4a8d291b6cbe854bc4ded080e4ea/AndroidManifest.xml:12:5-20
+MERGED from [de.hdodenhof:circleimageview:2.2.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/circleimageview-2.2.0.aar/2cdc2983e51bfd2b9cd607f7d5084e1b/AndroidManifest.xml:9:5-20
+MERGED from [de.hdodenhof:circleimageview:2.2.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/circleimageview-2.2.0.aar/2cdc2983e51bfd2b9cd607f7d5084e1b/AndroidManifest.xml:9:5-20
 MERGED from [com.android.support:support-compat:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/e446ff75528654878f7cadb6d586e84c/AndroidManifest.xml:22:5-94
 MERGED from [com.android.support:support-compat:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/e446ff75528654878f7cadb6d586e84c/AndroidManifest.xml:22:5-94
 MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/ce80c0f70d25891e50934d18cf18c8dc/AndroidManifest.xml:22:5-23:19
@@ -313,6 +332,8 @@ MERGED from [com.yashoid:instacropper:1.0.6] /Users/weirenchen/.gradle/caches/tr
 MERGED from [com.yashoid:instacropper:1.0.6] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/instacropper-1.0.6.aar/793622df80928ad67b172e09c366ce12/AndroidManifest.xml:7:5-9:41
 MERGED from [com.xw.repo:bubbleseekbar:3.19-lite] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/bubbleseekbar-3.19-lite.aar/4a1f4a8d291b6cbe854bc4ded080e4ea/AndroidManifest.xml:8:5-10:41
 MERGED from [com.xw.repo:bubbleseekbar:3.19-lite] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/bubbleseekbar-3.19-lite.aar/4a1f4a8d291b6cbe854bc4ded080e4ea/AndroidManifest.xml:8:5-10:41
+MERGED from [de.hdodenhof:circleimageview:2.2.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/circleimageview-2.2.0.aar/2cdc2983e51bfd2b9cd607f7d5084e1b/AndroidManifest.xml:5:5-7:41
+MERGED from [de.hdodenhof:circleimageview:2.2.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/circleimageview-2.2.0.aar/2cdc2983e51bfd2b9cd607f7d5084e1b/AndroidManifest.xml:5:5-7:41
 MERGED from [com.android.support:support-fragment:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/2be3d3035fb03687749235916a1da2e7/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-fragment:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/2be3d3035fb03687749235916a1da2e7/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/3ab166ac74edf761459e04fd8d7dec3e/AndroidManifest.xml:20:5-44
@@ -397,20 +418,6 @@ MERGED from [com.google.firebase:firebase-iid:17.0.4] /Users/weirenchen/.gradle/
 MERGED from [com.google.firebase:firebase-iid:17.0.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.4.aar/fa265cda6597dbf604ff0d64f1666beb/AndroidManifest.xml:22:5-79
 	android:name
 		ADDED from [com.google.firebase:firebase-database:16.0.3] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-database-16.0.3.aar/48d41edd726b6f0e20a046748f4924b3/AndroidManifest.xml:22:22-76
-uses-permission#android.permission.INTERNET
-ADDED from [com.google.firebase:firebase-database:16.0.3] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-database-16.0.3.aar/48d41edd726b6f0e20a046748f4924b3/AndroidManifest.xml:23:5-67
-MERGED from [com.google.firebase:firebase-measurement-connector-impl:17.0.2] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-impl-17.0.2.aar/80d014504e17491a24ae6b3adc859542/AndroidManifest.xml:22:5-67
-MERGED from [com.google.firebase:firebase-measurement-connector-impl:17.0.2] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-impl-17.0.2.aar/80d014504e17491a24ae6b3adc859542/AndroidManifest.xml:22:5-67
-MERGED from [com.google.firebase:firebase-analytics:16.0.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-analytics-16.0.4.aar/be1bbee30ee224ef32a03f1d1b9100c2/AndroidManifest.xml:23:5-67
-MERGED from [com.google.firebase:firebase-analytics:16.0.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-analytics-16.0.4.aar/be1bbee30ee224ef32a03f1d1b9100c2/AndroidManifest.xml:23:5-67
-MERGED from [com.google.firebase:firebase-storage:16.0.3] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-storage-16.0.3.aar/f90edff4faa368ed58ffb661da7c647e/AndroidManifest.xml:24:5-67
-MERGED from [com.google.firebase:firebase-storage:16.0.3] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-storage-16.0.3.aar/f90edff4faa368ed58ffb661da7c647e/AndroidManifest.xml:24:5-67
-MERGED from [com.google.firebase:firebase-analytics-impl:16.2.2] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-16.2.2.aar/d1989c044f75fd662975b4f910376c72/AndroidManifest.xml:23:5-67
-MERGED from [com.google.firebase:firebase-analytics-impl:16.2.2] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-16.2.2.aar/d1989c044f75fd662975b4f910376c72/AndroidManifest.xml:23:5-67
-MERGED from [com.google.firebase:firebase-iid:17.0.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.4.aar/fa265cda6597dbf604ff0d64f1666beb/AndroidManifest.xml:23:5-67
-MERGED from [com.google.firebase:firebase-iid:17.0.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-iid-17.0.4.aar/fa265cda6597dbf604ff0d64f1666beb/AndroidManifest.xml:23:5-67
-	android:name
-		ADDED from [com.google.firebase:firebase-database:16.0.3] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-database-16.0.3.aar/48d41edd726b6f0e20a046748f4924b3/AndroidManifest.xml:23:22-64
 service#com.google.firebase.messaging.FirebaseMessagingService
 ADDED from [com.google.firebase:firebase-messaging:17.3.4] /Users/weirenchen/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.3.4.aar/c419697a0475cd65a7c27289b9b41d25/AndroidManifest.xml:28:9-34:19
 	android:exported

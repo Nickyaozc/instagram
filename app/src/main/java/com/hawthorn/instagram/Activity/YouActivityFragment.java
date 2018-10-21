@@ -57,34 +57,37 @@ public class YouActivityFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_activity, container, false);
         // Query database.
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
         Query query = reference.child("act").orderByChild("receiver").equalTo(this.currentUser.getUid());
 //        Log.d(TAG, "query:" + query);
-
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
+        if(query != null){
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
 //                    Log.d(TAG, "onDataChange: found activity:" + singleSnapshot.getValue(Act.class).toString());
-                    if(contentList != null && singleSnapshot.getValue(Act.class).getContent() != null){
-                        photoList1.add(singleSnapshot.getValue(Act.class).getPhoto1());
-                        contentList.add(singleSnapshot.getValue(Act.class).getContent());
-                        photoList2.add(singleSnapshot.getValue(Act.class).getPhoto2());
-                    }
-                    RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
-                    ActivityAdapter activityAdapter = new ActivityAdapter(photoList1, contentList, photoList2) ;
-                    recyclerView.setAdapter(activityAdapter);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                    recyclerView.setLayoutManager(layoutManager);
-                    //update the users list view
+                        if(contentList != null && singleSnapshot.getValue(Act.class).getContent() != null){
+                            photoList1.add(singleSnapshot.getValue(Act.class).getPhoto1());
+                            contentList.add(singleSnapshot.getValue(Act.class).getContent());
+                            photoList2.add(singleSnapshot.getValue(Act.class).getPhoto2());
+                        }
+                        RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
+                        ActivityAdapter activityAdapter = new ActivityAdapter(photoList1, contentList, photoList2) ;
+                        recyclerView.setAdapter(activityAdapter);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                        recyclerView.setLayoutManager(layoutManager);
+                        //update the users list view
 //                    updateUsersList();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
+
         // Prepare data set.
 
 
