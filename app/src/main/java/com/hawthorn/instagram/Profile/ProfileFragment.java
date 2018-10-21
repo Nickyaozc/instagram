@@ -27,6 +27,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hawthorn.instagram.Models.Comment;
 import com.hawthorn.instagram.Models.Photo;
+import com.hawthorn.instagram.Models.User;
 import com.hawthorn.instagram.Models.UserAccountSettings;
 import com.hawthorn.instagram.Models.UserSettings;
 import com.hawthorn.instagram.R;
@@ -66,6 +67,7 @@ public class ProfileFragment extends Fragment {
 //    private BottomNavigationViewEx bottomNavigationView;
 
     private Context mContext;
+    private DatabaseReference mReference = FirebaseDatabase.getInstance().getReference();
 
 
     @Nullable
@@ -97,7 +99,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    private void setProfileWidgets(UserSettings userSettings){
+    private void setProfileWidgets(UserSettings userSettings, DataSnapshot dataSnapshot){
         Log.d(TAG, "setProfileWidgets: setting widgets with data retrieving from firebase database: " + userSettings.toString());
         Log.d(TAG, "setProfileWidgets: setting widgets with data retrieving from firebase database: " + userSettings.getSettings().getUser_name());
 
@@ -111,7 +113,36 @@ public class ProfileFragment extends Fragment {
         mWebsite.setText(settings.getWebsite());
 //        Log.d(TAG, "des: "+settings.getDescription());
         mDescription.setText(settings.getDescription());
-        mPosts.setText(String.valueOf(settings.getPosts()));
+        mPosts.setText(String.valueOf(mFirebaseMethods.getImageCount(dataSnapshot)));
+
+//
+//        Query userQuery = mReference
+//                .child(mContext.getString(R.string.dbname_user_account_settings))
+//                .orderByChild(mContext.getString(R.string.field_user_id))
+//                .equalTo(settings.getUser_name());
+//        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+//
+//                    int tempCount = mFirebaseMethods.getImageCount(dataSnapshot);
+////                            singleSnapshot.getValue(User.class).getUsername());
+//                    Log.d(TAG, "In profile: count"+tempCount);
+//                    mPosts.setText(String.valueOf(tempCount));
+////                    holder.user = singleSnapshot.getValue(User.class);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+
+
+//        mPosts.setText();
         mFollowing.setText(String.valueOf(settings.getFollowing()));
         mFollowers.setText(String.valueOf(settings.getFollowers()));
         mProgressBar.setVisibility(View.GONE);
@@ -208,7 +239,7 @@ public class ProfileFragment extends Fragment {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                setProfileWidgets(mFirebaseMethods.getUserSettings(dataSnapshot));
+                setProfileWidgets(mFirebaseMethods.getUserSettings(dataSnapshot), dataSnapshot);
             }
 
             @Override
