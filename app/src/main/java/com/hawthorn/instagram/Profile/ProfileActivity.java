@@ -1,17 +1,17 @@
+//This file is learnt with CodingWithMitch according to his courses on YouTube, the link is https://youtu.be/qpJRgr6HzAw
 package com.hawthorn.instagram.Profile;
 
+
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.support.v7.widget.Toolbar;
-//import android.widget.Toolbar;
+import android.widget.ProgressBar;
+import android.support.v4.app.FragmentTransaction;
 
 import com.hawthorn.instagram.R;
-//import android.support.v7.R;
+import java.util.ArrayList;
+
 
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
@@ -21,35 +21,17 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         Log.d(TAG, "onCreate, started.");
-        setupToolbar();
+        init();
     }
 
-    private void setupToolbar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.profileToolBar);
-        setSupportActionBar(toolbar);
+    private void init() {
+        Log.d(TAG, "init: inflating " + getString(R.string.profile_fragment));
 
-
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Log.d(TAG, "onMenuItemClick: click menu item:" + menuItem);
-                switch (menuItem.getItemId()){
-                    case  R.id.profileMenu:
-                        Log.d(TAG, "onMenuItemClick: Navigating to Profile Preferences.");
-                }
-
-                return false;
-
-
-
-
-            }
-        });
+        ProfileFragment fragment = new ProfileFragment();
+        FragmentTransaction transaction = ProfileActivity.this.getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(getString(R.string.profile_fragment));
+        transaction.commit();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.profile_menu, menu);
-        return true;
-    }
 }

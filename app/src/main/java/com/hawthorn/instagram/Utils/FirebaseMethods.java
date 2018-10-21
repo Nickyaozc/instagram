@@ -1,19 +1,15 @@
+//This file is learnt with CodingWithMitch according to his courses on YouTube, the link is https://youtu.be/qpJRgr6HzAw
 package com.hawthorn.instagram.Utils;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -28,6 +24,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import com.hawthorn.instagram.Models.User;
+import com.hawthorn.instagram.Models.UserAccountSettings;
+import com.hawthorn.instagram.Models.UserSettings;
+import com.hawthorn.instagram.R;
+
 
 public class FirebaseMethods {
 
@@ -111,60 +113,6 @@ public class FirebaseMethods {
             });
 
         }
-        //case new profile photo
-//        else if(photoType.equals(mContext.getString(R.string.profile_photo))){
-//            Log.d(TAG, "uploadNewPhoto: uploading new PROFILE photo");
-//
-//
-//            String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//            StorageReference storageReference = mStorageReference
-//                    .child(filePaths.FIREBASE_IMAGE_STORAGE + "/" + user_id + "/profile_photo");
-//
-//            //convert image url to bitmap
-//            if(bm == null){
-//                bm = ImageManager.getBitmap(imgUrl);
-//            }
-//            byte[] bytes = ImageManager.getBytesFromBitmap(bm, 100);
-//
-//            UploadTask uploadTask = null;
-//            uploadTask = storageReference.putBytes(bytes);
-//
-//            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    Uri firebaseUrl = taskSnapshot.getDownloadUrl();
-//
-//                    Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
-//
-//                    //insert into 'user_account_settings' node
-//                    setProfilePhoto(firebaseUrl.toString());
-//
-//                    ((AccountSettingsActivity)mContext).setViewPager(
-//                            ((AccountSettingsActivity)mContext).pagerAdapter
-//                                    .getFragmentNumber(mContext.getString(R.string.edit_profile_fragment))
-//                    );
-//
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.d(TAG, "onFailure: Photo upload failed.");
-//                    Toast.makeText(mContext, "Photo upload failed ", Toast.LENGTH_SHORT).show();
-//                }
-//            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-//                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-//
-//                    if(progress - 15 > mPhotoUploadProgress){
-//                        Toast.makeText(mContext, "photo upload progress: " + String.format("%.0f", progress) + "%", Toast.LENGTH_SHORT).show();
-//                        mPhotoUploadProgress = progress;
-//                    }
-//
-//                    Log.d(TAG, "onProgress: upload progress: " + progress + "% done");
-//                }
-//            });
-//        }
 
     }
 
@@ -246,4 +194,95 @@ public class FirebaseMethods {
                 .setValue(settings);
 
     }
+
+
+    public UserSettings getUserSettings(DataSnapshot dataSnapshot){
+        Log.d(TAG, "getUserAccountSettings: retrieving user account settings from firebase.");
+        UserAccountSettings settings  = new UserAccountSettings();
+        User user = new User();
+
+        for(DataSnapshot ds: dataSnapshot.getChildren()){
+
+            // user_account_settings node
+            if(ds.getKey().equals(mContext.getString(R.string.dbname_user_account_settings))){
+                Log.d(TAG, "getUserAccountSettings: datasnapshot: " + ds);
+
+                try{
+
+                    settings.setDisplay_name(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getDisplay_name()
+                    );
+                    settings.setUser_name(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getUser_name()
+                    );
+                    settings.setWebsite(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getWebsite()
+                    );
+                    settings.setDescription(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getDescription()
+                    );
+                    settings.setProfile_photo(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getProfile_photo()
+                    );
+                    settings.setPosts(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getPosts()
+                    );
+                    settings.setFollowing(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getFollowing()
+                    );
+                    settings.setFollowers(
+                            ds.child(userID)
+                                    .getValue(UserAccountSettings.class)
+                                    .getFollowers()
+                    );
+
+                    Log.d(TAG, "getUserAccountSettings: retrieved user_account_settings information: " + settings.toString());
+                }catch (NullPointerException e){
+                    Log.e(TAG, "getUserAccountSettings: NullPointerException: " + e.getMessage() );
+                }
+            }
+        }
+        return new UserSettings(user, settings);
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
