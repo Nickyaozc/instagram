@@ -29,6 +29,8 @@ public class Act {
         this.initializer = initializer;
         this.receiver = receiver;
         this.content = content;
+        this.photo1 = photo1;
+        this.photo2 = photo2;
     }
 
     public String getContent() {

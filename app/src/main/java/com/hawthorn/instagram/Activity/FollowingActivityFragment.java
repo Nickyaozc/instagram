@@ -69,43 +69,43 @@ public class FollowingActivityFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 following.clear();
                 for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
-//                    Log.d(TAG, "onDataChange: found activity:" + singleSnapshot.getValue(Following.class).toString());
+                    Log.d(TAG, "onDataChange: following:" + singleSnapshot.getValue(Following.class));
                     following.add(singleSnapshot.getValue(Following.class).getUserid());
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference();
-                    Query query2 = reference2.child("act");
+                DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference();
+                Query query2 = reference2.child("act");
 //        Log.d(TAG, "query:" + query);
 
-                    query2.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
-                    Log.d(TAG, "onDataChange: found activity:" + singleSnapshot.getValue(Act.class).toString());
-                                if(following.contains(singleSnapshot.getValue(Act.class).getInitializer())){
-                                    if(contentList != null && singleSnapshot.getValue(Act.class).getContent() != null){
-                                        photoList1.add(singleSnapshot.getValue(Act.class).getPhoto1());
-                                        contentList.add(singleSnapshot.getValue(Act.class).getContent());
-                                        photoList2.add(singleSnapshot.getValue(Act.class).getPhoto2());
-                                    }
+                query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
+                            Log.d(TAG, "onDataChange: found activity:" + singleSnapshot.getValue(Act.class));
+                                if(following.contains((String)singleSnapshot.getValue(Act.class).getInitializer().toString())){
+                            Log.d(TAG, "onDataChange: contains:" + singleSnapshot.getValue(Act.class).getInitializer());
+                            if(contentList != null && singleSnapshot.getValue(Act.class).getContent() != null){
+                                Log.d(TAG, "onDataChange: adding:" + singleSnapshot.getValue(Act.class).toString());
+                                photoList1.add(singleSnapshot.getValue(Act.class).getPhoto1());
+                                contentList.add(singleSnapshot.getValue(Act.class).getContent());
+                                photoList2.add(singleSnapshot.getValue(Act.class).getPhoto2());
+                            }
                                 }
 
-                    RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
-                    ActivityAdapter activityAdapter = new ActivityAdapter(photoList1, contentList, photoList2) ;
-                    recyclerView.setAdapter(activityAdapter);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                    recyclerView.setLayoutManager(layoutManager);
-                    //update the users list view
+                            RecyclerView recyclerView = view.findViewById(R.id.my_recycler_view);
+                            ActivityAdapter activityAdapter = new ActivityAdapter(photoList1, contentList, photoList2) ;
+                            recyclerView.setAdapter(activityAdapter);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                            recyclerView.setLayoutManager(layoutManager);
+                            //update the users list view
 //                    updateUsersList();
-                }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override
@@ -113,6 +113,9 @@ public class FollowingActivityFragment extends Fragment {
 
             }
         });
+
+
+
         // Prepare data set.
 
 
