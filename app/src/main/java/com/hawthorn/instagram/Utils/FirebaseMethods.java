@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -57,6 +58,10 @@ public class FirebaseMethods {
         }
     }
 
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
     public void uploadNewPhoto(String photoType, final String caption,final int count, final String imgUrl,
                                Bitmap bm){
         Log.d(TAG, "uploadNewPhoto: attempting to uplaod new photo.");
@@ -68,7 +73,7 @@ public class FirebaseMethods {
             Log.d(TAG, "uploadNewPhoto: uploading NEW photo.");
 
             String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            StorageReference storageReference = mStorageReference
+            final StorageReference storageReference = mStorageReference
                     .child(filePaths.FIREBASE_IMAGE_STORAGE + "/" + user_id + "/photo" + (count + 1));
 
             byte[] bytes = ImageManager.getBytesFromBitmap(bm, 100);
@@ -76,19 +81,32 @@ public class FirebaseMethods {
             UploadTask uploadTask;
             uploadTask = storageReference.putBytes(bytes);
 
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri firebaseUrl = taskSnapshot.getUploadSessionUri();
-
-                    Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
-
+                public void onSuccess(Uri uri) {
                     //add the new photo to 'photos' node and 'user_photos' node
-                    addPhotoToDatabase(caption, firebaseUrl.toString());
+                    addPhotoToDatabase(caption, uri.toString());
 
                     //navigate to the main feed so the user can see their photo
                     Intent intent = new Intent(mContext, MainActivity.class);
                     mContext.startActivity(intent);
+                }
+            });
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+////                    Uri firebaseUrl = taskSnapshot.getUploadSessionUri();
+//                    Task<Uri> firebaseUrl = storageReference.getDownloadUrl();
+
+                    Toast.makeText(mContext, "photo upload success", Toast.LENGTH_SHORT).show();
+//
+//                    //add the new photo to 'photos' node and 'user_photos' node
+//                    addPhotoToDatabase(caption, firebaseUrl.toString());
+//
+//                    //navigate to the main feed so the user can see their photo
+//                    Intent intent = new Intent(mContext, MainActivity.class);
+//                    mContext.startActivity(intent);
                 }
             }) .addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -218,7 +236,7 @@ public class FirebaseMethods {
      * @param profile_photo
      */
     public void addNewUser(String email, String username, String description, String website, String profile_photo){
-
+        Log.e(TAG, "addNewUser: " + userID);
         User user = new User( userID,  1,  email,  StringManipulation.condenseUsername(username) );
         if (mAuth.getCurrentUser() != null) {
             userID = mAuth.getCurrentUser().getUid();

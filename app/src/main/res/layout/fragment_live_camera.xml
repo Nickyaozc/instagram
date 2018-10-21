@@ -8,7 +8,7 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextureView
+    <com.hawthorn.instagram.Utils.AutoFitTextureView
         android:id="@+id/cameraTextureView"
         android:layout_width="match_parent"
         android:layout_height="0dp"

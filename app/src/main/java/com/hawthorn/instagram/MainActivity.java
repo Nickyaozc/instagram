@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         profileFragment = new ProfileFragment();
 
         setFragment(homeFragment);
-        mToolbar.setLogo(R.drawable.instagram_textlogo);
+//        mToolbar.setLogo(R.drawable.instagram_textlogo);
         setUpBottomNavigationListener();
     }
 
@@ -86,27 +86,27 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (menuItem.getItemId()) {
                         case R.id.nav_home:
-                            mToolbar.setLogo(R.drawable.instagram_textlogo);
+//                            mToolbar.setLogo(R.drawable.instagram_textlogo);
                             setFragment(homeFragment);
                             return true;
 
                         case R.id.nav_discovery:
-                            mToolbar.setLogo(null);
+//                            mToolbar.setLogo(null);
                             setFragment(discoveryFragment);
                             return true;
 
                         case R.id.nav_photo:
-                            mToolbar.setLogo(null);
+//                            mToolbar.setLogo(null);
                             showPhotoActivity();
                             return false;
 
                         case R.id.nav_activity:
-                            mToolbar.setLogo(null);
+//                            mToolbar.setLogo(null);
                             setFragment(activityFragment);
                             return true;
 
                         case R.id.nav_profile:
-                            mToolbar.setLogo(null);
+//                            mToolbar.setLogo(null);
                             showProfileActivity();
 //                            setFragment(profileFragment);
                             return true;

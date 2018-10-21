@@ -28,15 +28,15 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <!--<ImageView-->
-            <!--android:id="@+id/toolbar_logo"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:layout_marginTop="12dp"-->
-            <!--android:layout_marginBottom="12dp"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:src="@drawable/instagram_textlogo"-->
-            <!--android:layout_gravity="center"/>-->
+        <ImageView
+            android:id="@+id/toolbar_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/instagram_textlogo"
+            android:layout_gravity="center"/>
     </android.support.v7.widget.Toolbar>
 
 

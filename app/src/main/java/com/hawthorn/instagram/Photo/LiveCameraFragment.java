@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -47,6 +49,7 @@ import android.widget.Toast;
 
 import com.hawthorn.instagram.MainActivity;
 import com.hawthorn.instagram.R;
+import com.hawthorn.instagram.Utils.AutoFitTextureView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -87,7 +90,7 @@ public class LiveCameraFragment extends Fragment
     }
 
     //widgets
-    private TextureView mTextureView;
+    private AutoFitTextureView mTextureView;
     private Button mPictureBtn;
     private ImageView flashButton;
     private ImageView gridButton;
@@ -123,7 +126,7 @@ public class LiveCameraFragment extends Fragment
 
         // init view
         mPictureBtn = (Button) view.findViewById(R.id.takephotoBtn);
-        mTextureView = (TextureView) view.findViewById(R.id.cameraTextureView);
+        mTextureView = (AutoFitTextureView) view.findViewById(R.id.cameraTextureView);
         mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         flashButton = (ImageView) view.findViewById(R.id.flash_button);
         flashButton.setOnClickListener(flashButtonListener);
@@ -272,7 +275,8 @@ public class LiveCameraFragment extends Fragment
 
             // Orientation
             int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+//            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 270);
 //            final File file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
 
             try {
@@ -380,6 +384,7 @@ public class LiveCameraFragment extends Fragment
 
     private void openCamera()  {
         Log.e(TAG, "openCamera: Started");
+        configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
         Activity activity = getActivity();
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         try {
@@ -428,21 +433,65 @@ public class LiveCameraFragment extends Fragment
         }
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File storageDir = new File(Environment.getExternalStorageDirectory().getPath());
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",     /* suffix */
-                storageDir      /* directory */
-        );
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
+    private void configureTransform(int viewWidth, int viewHeight) {
+        Activity activity = getActivity();
+        if (null == mTextureView || null == mPreviewSize || null == activity) {
+            return;
+        }
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        Matrix matrix = new Matrix();
+        RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
+        RectF bufferRect = new RectF(0, 0, mPreviewSize.getHeight(), mPreviewSize.getWidth());
+        float centerX = viewRect.centerX();
+        float centerY = viewRect.centerY();
+        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
+            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
+            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
+            float scale = Math.max(
+                    (float) viewHeight / mPreviewSize.getHeight(),
+                    (float) viewWidth / mPreviewSize.getWidth());
+            matrix.postScale(scale, scale, centerX, centerY);
+            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
+        } else if (Surface.ROTATION_180 == rotation) {
+            matrix.postRotate(180, centerX, centerY);
+        }
+        mTextureView.setTransform(matrix);
     }
+
+    private int getJpegOrientation(CameraCharacteristics c, int deviceOrientation) {
+        if (deviceOrientation == android.view.OrientationEventListener.ORIENTATION_UNKNOWN) return 0;
+        int sensorOrientation = c.get(CameraCharacteristics.SENSOR_ORIENTATION);
+
+        // Round device orientation to a multiple of 90
+        deviceOrientation = (deviceOrientation + 45) / 90 * 90;
+
+        // Reverse device orientation for front-facing cameras
+        boolean facingFront = c.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT;
+        if (facingFront) deviceOrientation = -deviceOrientation;
+
+        // Calculate desired JPEG orientation relative to camera orientation to make
+        // the image upright relative to the device orientation
+        int jpegOrientation = (sensorOrientation + deviceOrientation + 270) % 360;
+
+        return jpegOrientation;
+    }
+
+
+    private File createImageFile() throws IOException {
+    // Create an image file name
+    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+    File storageDir = new File(Environment.getExternalStorageDirectory().getPath());
+    File image = File.createTempFile(
+            imageFileName,  /* prefix */
+            ".jpg",     /* suffix */
+            storageDir      /* directory */
+    );
+    // Save a file: path for use with ACTION_VIEW intents
+    mCurrentPhotoPath = image.getAbsolutePath();
+    return image;
+}
 
     private void showEditPhotoActivity(byte[] bytes) {
         Log.e(TAG, "showShareActivity: navigate to the EditPhotoActivity");
