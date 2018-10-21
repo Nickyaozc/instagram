@@ -804,6 +804,10 @@
         "source": "/Users/weirenchen/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/4d0ed4b50ceeb82c4f870ec6a0edcb2a/res/drawable-ldrtl-xxxhdpi-v17/abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
+        "merged": "/Users/weirenchen/Desktop/instagram/app/build/intermediates/res/merged/debug/layout_layout_user_listitem.xml.flat",
+        "source": "/Users/weirenchen/Desktop/instagram/app/src/main/res/layout/layout_user_listitem.xml"
+    },
+    {
         "merged": "/Users/weirenchen/Desktop/instagram/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
         "source": "/Users/weirenchen/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/4d0ed4b50ceeb82c4f870ec6a0edcb2a/res/drawable-mdpi-v4/abc_scrubber_track_mtrl_alpha.9.png"
     },
@@ -1334,6 +1338,10 @@
     {
         "merged": "/Users/weirenchen/Desktop/instagram/app/build/intermediates/res/merged/debug/color_mtrl_tabs_colored_ripple_color.xml.flat",
         "source": "/Users/weirenchen/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/9e3df21c3b249d08641025556c761e54/res/color/mtrl_tabs_colored_ripple_color.xml"
+    },
+    {
+        "merged": "/Users/weirenchen/Desktop/instagram/app/build/intermediates/res/merged/debug/layout_snippet_searchbar.xml.flat",
+        "source": "/Users/weirenchen/Desktop/instagram/app/src/main/res/layout/snippet_searchbar.xml"
     },
     {
         "merged": "/Users/weirenchen/Desktop/instagram/app/build/intermediates/res/merged/debug/drawable-xxhdpi_ic_like_red.png.flat",

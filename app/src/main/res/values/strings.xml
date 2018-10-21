@@ -22,7 +22,6 @@
     <string name="cropped_image">cropped image</string>
     <string name="edited_image">edited image</string>
 
-
     <!-- Firebase database fields -->
     <string name="dbname_followers">followers</string>
     <string name="dbname_stories">stories</string>>
@@ -61,5 +60,10 @@
     <string name="field_image_path">image_path</string>
     <string name="field_comments">comments</string>
     <string name="field_likes">likes</string>
+    <string name="auth_failed">Firebasemethods</string>
+
+
+
 
 </resources>
+

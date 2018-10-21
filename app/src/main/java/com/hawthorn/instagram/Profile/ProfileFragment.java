@@ -2,20 +2,20 @@
 package com.hawthorn.instagram.Profile;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.content.Context;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,15 +25,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.hawthorn.instagram.Models.Comment;
 import com.hawthorn.instagram.Models.Photo;
-import com.hawthorn.instagram.Models.User;
 import com.hawthorn.instagram.Models.UserAccountSettings;
 import com.hawthorn.instagram.Models.UserSettings;
 import com.hawthorn.instagram.R;
 import com.hawthorn.instagram.Utils.FirebaseMethods;
 import com.hawthorn.instagram.Utils.GridImageAdapter;
-import com.hawthorn.instagram.Utils.HomeFeedListAdapter;
 import com.hawthorn.instagram.Utils.UniversalImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

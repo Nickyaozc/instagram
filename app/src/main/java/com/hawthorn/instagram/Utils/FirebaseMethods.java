@@ -171,7 +171,7 @@ public class FirebaseMethods {
     }
 
 
-     public int getImageCount(DataSnapshot dataSnapshot) {
+    public int getImageCount(DataSnapshot dataSnapshot) {
         int count = 0;
         try {
             for (DataSnapshot ds : dataSnapshot
@@ -291,28 +291,3 @@ public class FirebaseMethods {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

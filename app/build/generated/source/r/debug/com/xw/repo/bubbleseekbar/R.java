@@ -51,7 +51,7 @@ public final class R {
     public static final class id {
         public static final int below_section_mark = 0x7f080028;
         public static final int bottom_sides = 0x7f08002c;
-        public static final int sides = 0x7f0800e8;
+        public static final int sides = 0x7f0800eb;
     }
     public static final class styleable {
         public static final int[] BubbleSeekBar = { 0x0101000e, 0x7f03004e, 0x7f03004f, 0x7f030050, 0x7f030051, 0x7f030052, 0x7f030053, 0x7f030054, 0x7f030055, 0x7f030056, 0x7f030057, 0x7f030058, 0x7f030059, 0x7f03005a, 0x7f03005b, 0x7f03005c, 0x7f03005d, 0x7f03005e, 0x7f03005f, 0x7f030060, 0x7f030061, 0x7f030062, 0x7f030063, 0x7f030064, 0x7f030065, 0x7f030066, 0x7f030067, 0x7f030068, 0x7f030069, 0x7f03006a, 0x7f03006b, 0x7f03006c, 0x7f03006d, 0x7f03006e, 0x7f03006f };

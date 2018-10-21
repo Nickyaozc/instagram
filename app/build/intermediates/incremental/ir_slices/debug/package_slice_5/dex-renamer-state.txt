@@ -1,4 +1,4 @@
-#Sun Oct 21 18:14:05 AEDT 2018
+#Sun Oct 21 18:56:29 AEDT 2018
 base.0=/Users/weirenchen/Desktop/instagram/app/build/intermediates/transforms/dexMerger/debug/5
 path.0=classes.dex
 renamed.0=classes.dex

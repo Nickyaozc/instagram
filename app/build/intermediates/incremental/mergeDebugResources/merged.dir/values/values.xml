@@ -1049,6 +1049,7 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="app_name">Instagram</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="auth_failed">Firebasemethods</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
     <string name="btn_start_camera">start camera</string>
     <string name="btn_take_picture">take picture</string>
