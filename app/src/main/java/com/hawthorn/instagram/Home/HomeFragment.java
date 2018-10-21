@@ -60,46 +60,41 @@ public class HomeFragment extends Fragment {
         mPhotos = new ArrayList<>();
         initImageLoader();
         setupFirebaseAuth();
-        getPhotos();
-
+        getFollowing();
         return view;
     }
 
-//    private void getFollowing(){
-//        Log.d(TAG, "getFollowing: searching for following");
-//
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-//        Query query = reference
-//                .child(getString(R.string.dbname_following))
-//                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-//                    Log.d(TAG, "onDataChange: found user: " +
-//                            singleSnapshot.child(getString(R.string.field_user_id)).getValue());
-//
-//                    mFollowing.add(singleSnapshot.child(getString(R.string.field_user_id)).getValue().toString());
-//                }
-//
-//                //get the photos
-//                getPhotos();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-
-    private void getPhotos(){
-
-
+    private void getFollowing(){
         String myUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Log.d(TAG, "my userID: "+myUid);
         mFollowing.add(myUid);
+        Log.d(TAG, "getFollowing: searching for following");
 
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference
+                .child(getString(R.string.dbname_following))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    Log.d(TAG, "getFollowing: " +
+                            singleSnapshot.child(getString(R.string.field_user_id)).getValue());
+//                            singleSnapshot.toString());
+                    mFollowing.add(singleSnapshot.child(getString(R.string.field_user_id)).getValue().toString());
+                }
+                //get the photo
+                getPhotos();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getPhotos(){
 
         Log.d(TAG, "getPhotos: getting photos");
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -139,7 +134,6 @@ public class HomeFragment extends Fragment {
                         mPhotos.add(photo);
                     }
                     if(count >= mFollowing.size() -1){
-                        //display our photos
                         displayPhotos();
                     }
                 }
