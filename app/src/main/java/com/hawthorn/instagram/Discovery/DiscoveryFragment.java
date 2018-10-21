@@ -16,15 +16,18 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
+import com.hawthorn.instagram.Login.LoginActivity;
 import com.hawthorn.instagram.Profile.ProfileActivity;
 import com.hawthorn.instagram.R;
 import com.hawthorn.instagram.Utils.UserListAdapter;
 import com.hawthorn.instagram.models.RecommendedUsers;
+import com.hawthorn.instagram.models.UserAccountSettings;
 import com.hawthorn.instagram.models.Users;
-
+import com.hawthorn.instagram.models.Act;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +40,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static android.support.v4.content.ContextCompat.getSystemService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 
 /**
@@ -63,14 +69,42 @@ public class DiscoveryFragment extends Fragment {
     private UserListAdapter rAdapter;///zhe
     private List<Users> rUserList;///zhe
     private boolean searching = false;
-
-
+    private String text;
+    private long currentFollowing;
+    private long currentFollowers;
+    private Users mUser;
+    private String init_name;
+    private String photo1;
+    private String photo2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View view =  inflater.inflate(R.layout.fragment_discovery, container, false);
+
+        Query query1 = FirebaseDatabase.getInstance().getReference()
+                .child("user_account_settings")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                photo1 = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+                init_name = dataSnapshot.getValue(UserAccountSettings.class).getUsername();
+                Log.d(TAG, "onCreateView "+photo1);
+                Log.d(TAG, "onCreateView "+init_name);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         mSearchParam = view.findViewById(R.id.search);
         mListView = view.findViewById(R.id.listView);
         rUserList = new ArrayList<>();
@@ -94,7 +128,7 @@ public class DiscoveryFragment extends Fragment {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                randomsuggestion();
             }
 
             @Override
@@ -105,7 +139,7 @@ public class DiscoveryFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-                String text = mSearchParam.getText().toString().toLowerCase(Locale.getDefault());
+                text = mSearchParam.getText().toString().toLowerCase(Locale.getDefault());
                 searchForMatch(text);
                 //searching = true;
             }
@@ -150,16 +184,18 @@ public class DiscoveryFragment extends Fragment {
 
         mAdapter = new UserListAdapter(getContext(), R.layout.layout_user_listitem, mUserList);
         rAdapter = new UserListAdapter(getContext(), R.layout.layout_user_listitem, rUserList);///zhe
-
-        mListView.setAdapter(mAdapter);
-        mListView.setAdapter(rAdapter);///zhe
+        if(text != null && text.length()>0) mListView.setAdapter(mAdapter);
+        else mListView.setAdapter(rAdapter);///zhe
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                // Log.d(TAG, "onItemClick: selected user: " + mUserList.get(position).toString());
-
-                //navigate to profile activity
+                mUser = (Users)parent.getAdapter().getItem(position);
+                Toast.makeText(getActivity(), "Followed user "+mUser.getUsername()+" successfully",
+                        Toast.LENGTH_SHORT).show();
+                followUser();
+                addAct();
 
 
             }
@@ -175,6 +211,7 @@ public class DiscoveryFragment extends Fragment {
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    rUserList.clear();
                     for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
                         Log.d(TAG, "onDataChange: randomsuggestion:" + singleSnapshot.getValue(Users.class).toString());
 
@@ -195,7 +232,118 @@ public class DiscoveryFragment extends Fragment {
 
 
     }
+    private void followUser(){
+        // update following
+        FirebaseDatabase.getInstance().getReference()
+                .child("following")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(mUser.getUser_id())
+                .child(getString(R.string.field_user_id))
+                .setValue(mUser.getUser_id());
+        // update follower
+        FirebaseDatabase.getInstance().getReference()
+                .child("followers")
+                .child(mUser.getUser_id())
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(getString(R.string.field_user_id))
+                .setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        // update user_account_settings for following
+        Query query1 = FirebaseDatabase.getInstance().getReference()
+                .child("user_account_settings")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "follower account: "+dataSnapshot.getValue(UserAccountSettings.class).toString());
+                currentFollowing = dataSnapshot.getValue(UserAccountSettings.class).getFollowing();
+                photo1 = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+                init_name = dataSnapshot.getValue(UserAccountSettings.class).getUsername();
 
+                Log.e(TAG, "photo1: " + photo1);
+                Log.e(TAG, "in followUser: "+ init_name);
+                FirebaseDatabase.getInstance().getReference()
+                        .child("user_account_settings")
+                        .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child("following")
+                        .setValue(currentFollowing+1);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        // update user_account_settings for followers
+        Query query2 = FirebaseDatabase.getInstance().getReference()
+                .child("user_account_settings")
+                .child(mUser.getUser_id());
+        query2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "followee account: "+dataSnapshot.getValue(UserAccountSettings.class).toString());
+                photo2 = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+                Log.e(TAG, "photo2: " + photo2);
+                currentFollowers = dataSnapshot.getValue(UserAccountSettings.class).getFollowers();
+                FirebaseDatabase.getInstance().getReference()
+                        .child("user_account_settings")
+                        .child(mUser.getUser_id())
+                        .child("followers")
+                        .setValue(currentFollowers+1);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void addAct(){
+
+
+
+
+
+        Query query1 = FirebaseDatabase.getInstance().getReference()
+                .child("user_account_settings")
+                .child(mUser.getUser_id());
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "follower account: "+dataSnapshot.getValue(UserAccountSettings.class).toString());
+                photo2 = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+                String initializer = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String receiver = mUser.getUser_id();
+                String rece_name = mUser.getUsername();
+                String content = init_name+" starts following "+rece_name;
+                Log.d(TAG, "addAct "+photo1);
+                Log.d(TAG, "addAct "+init_name);
+                Act act = new Act(initializer, receiver, content, photo1, photo2 );
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                        .child("act");
+                String newKey = ref.push().getKey();
+                Log.d(TAG, "trying to add act: "+act.toString());
+                FirebaseDatabase.getInstance().getReference()
+                        .child("act")
+                        .child(newKey)
+                        .setValue(act);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
 
 
 

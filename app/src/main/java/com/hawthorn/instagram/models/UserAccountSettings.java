@@ -1,7 +1,5 @@
 package com.hawthorn.instagram.models;
 
-import java.io.Serializable;
-
 public class UserAccountSettings {
     public String description;
     public String display_name;
@@ -11,6 +9,22 @@ public class UserAccountSettings {
     public String profile_photo;
     public String username;
     public String website;
+
+    @Override
+    public String toString() {
+        return "UserAccountSettings{" +
+                "description='" + description + '\'' +
+                ", display_name='" + display_name + '\'' +
+                ", followers=" + followers +
+                ", following=" + following +
+                ", posts=" + posts +
+                ", profile_photo='" + profile_photo + '\'' +
+                ", username='" + username + '\'' +
+                ", website='" + website + '\'' +
+                '}';
+    }
+
+    public UserAccountSettings(){}
 
     public UserAccountSettings(String description, String display_name, long followers, long following, long posts, String profile_photo, String username, String website) {
         this.description = description;
