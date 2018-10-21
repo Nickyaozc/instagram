@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.hawthorn.instagram.Models.Act;
 import com.hawthorn.instagram.Models.Comment;
 import com.hawthorn.instagram.Models.Like;
 import com.hawthorn.instagram.Models.Photo;
@@ -39,20 +40,38 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 
 
     private static final String TAG = "HomeFeedListAdapter";
-
+    private boolean liked = false;
     private LayoutInflater mInflater;
     private int mLayoutResource;
     private Context mContext;
     private DatabaseReference mReference;
     private String currentUsername = "";
-
-
+    private String postLiked;
+    private String userLiked;
+    private String currentUserid;
+    private String commenterPhoto;
     public HomeFeedListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Photo> objects) {
         super(context, resource, objects);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayoutResource = resource;
         this.mContext = context;
         mReference = FirebaseDatabase.getInstance().getReference();
+        Query query1 = FirebaseDatabase.getInstance().getReference()
+                .child("user_account_settings")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                commenterPhoto = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
 
@@ -247,7 +266,24 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 
     private void addLikes(final ViewHolder holder){
         Log.d(TAG, "addLikes: adding new like");
+        postLiked = holder.photo.getImage_path();
+        userLiked = holder.photo.getUser_id();
+        currentUserid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        String content = currentUsername+" liked a post.";
+        Act act = new Act(currentUserid, userLiked, content, commenterPhoto, postLiked );
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child("act");
+        String newKey = ref.push().getKey();
+        Log.d(TAG, "trying to add act: "+act.toString());
+        Log.e(TAG, "isliked: "+liked);
+        if(!liked){
+            FirebaseDatabase.getInstance().getReference()
+                    .child("act")
+                    .child(newKey)
+                    .setValue(act);
+            liked = true;
+        }
         String newLikeID = mReference.push().getKey();
         Like like = new Like();
         like.setUser_id(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -284,6 +320,7 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
 //                    Log.d(TAG,"In line 378, current username: "+singleSnapshot.getValue(UserAccountSettings.class).toString());
                     currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getDisplay_name();
+
 //                    Log.d(TAG,"In line 372, current username: "+currentUsername);
                 }
 
