@@ -106,9 +106,7 @@ public class MainActivity extends AppCompatActivity {
                             return true;
 
                         case R.id.nav_profile:
-//                            mToolbar.setLogo(null);
-                            showProfileActivity();
-//                            setFragment(profileFragment);
+                            setFragment(profileFragment);
                             return true;
 
                         default:

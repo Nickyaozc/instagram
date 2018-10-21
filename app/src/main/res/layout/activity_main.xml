@@ -9,14 +9,15 @@
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
+        android:layout_height="56dp"
         android:background="@color/white"
+        android:elevation="4dp"
+        app:itemIconTint="@null"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:labelVisibilityMode="unlabeled"
-        app:itemIconTint="@null"
         app:menu="@menu/nav_items" />
 
     <android.support.v7.widget.Toolbar

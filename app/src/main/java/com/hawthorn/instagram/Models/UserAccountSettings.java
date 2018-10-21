@@ -3,7 +3,9 @@ package com.hawthorn.instagram.Models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
 public class UserAccountSettings implements Parcelable{
+
 
     private String description;
     private String display_name;
@@ -11,12 +13,12 @@ public class UserAccountSettings implements Parcelable{
     private long following;
     private long posts;
     private String profile_photo;
-    private String username;
+    private String user_name;
     private String website;
     private String user_id;
 
     public UserAccountSettings(String description, String display_name, long followers,
-                               long following, long posts, String profile_photo, String username,
+                               long following, long posts, String profile_photo, String user_name,
                                String website, String user_id) {
         this.description = description;
         this.display_name = display_name;
@@ -24,7 +26,7 @@ public class UserAccountSettings implements Parcelable{
         this.following = following;
         this.posts = posts;
         this.profile_photo = profile_photo;
-        this.username = username;
+        this.user_name = user_name;
         this.website = website;
         this.user_id = user_id;
     }
@@ -40,7 +42,7 @@ public class UserAccountSettings implements Parcelable{
         following = in.readLong();
         posts = in.readLong();
         profile_photo = in.readString();
-        username = in.readString();
+        user_name = in.readString();
         website = in.readString();
         user_id = in.readString();
     }
@@ -113,12 +115,13 @@ public class UserAccountSettings implements Parcelable{
         this.profile_photo = profile_photo;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+
     }
 
     public String getWebsite() {
@@ -139,7 +142,7 @@ public class UserAccountSettings implements Parcelable{
                 ", following=" + following +
                 ", posts=" + posts +
                 ", profile_photo='" + profile_photo + '\'' +
-                ", username='" + username + '\'' +
+                ", user_name='" + user_name + '\'' +
                 ", website='" + website + '\'' +
                 '}';
     }
@@ -157,8 +160,9 @@ public class UserAccountSettings implements Parcelable{
         dest.writeLong(following);
         dest.writeLong(posts);
         dest.writeString(profile_photo);
-        dest.writeString(username);
+        dest.writeString(user_name);
         dest.writeString(website);
         dest.writeString(user_id);
     }
 }
+
