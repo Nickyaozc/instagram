@@ -8,8 +8,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        >
+        android:background="@color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -36,20 +35,8 @@
                 android:text=""
                 android:layout_centerVertical="true"
                 android:id="@+id/homefeed_username"
-                android:textColor="@color/black"
-                />
+                android:textColor="@color/black"/>
 
-            <!--android:text="Dapao Zhang"-->
-
-
-            <!--<ImageView-->
-                <!--android:layout_width="30dp"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:src="@drawable/ic_list_icon"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_marginRight="20dp"-->
-                <!--android:id="@+id/ivEllipses"/>-->
 
         </RelativeLayout>
 
@@ -123,14 +110,14 @@
                 android:id="@+id/image_likes"/>
 
             <TextView
+                android:id="@+id/image_caption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Moutains #earthporn #mountains"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:id="@+id/image_caption"
                 android:layout_below="@+id/image_likes"
-                android:layout_marginTop="2dp"/>
+                android:layout_marginTop="2dp"
+                android:text="Test #test #test"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"

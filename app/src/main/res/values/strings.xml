@@ -33,4 +33,6 @@
     <string name="field_image_path">image_path</string>
     <string name="field_comments">comments</string>
     <string name="field_likes">likes</string>
+
+
 </resources>
