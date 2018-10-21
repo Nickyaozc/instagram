@@ -204,7 +204,7 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 
                         String keyID = singleSnapshot.getKey();
 
-                        //case1: Then user already liked the photo
+                        //Current user already liked the photo
                         if(mHolder.likedByCurrentUser &&
                                 singleSnapshot.getValue(Like.class).getUser_id()
                                         .equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
@@ -225,15 +225,13 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
                             mHolder.heart.toggleLike();
                             getLikesString(mHolder);
                         }
-                        //case2: The user has not liked the photo
+                        //Current user did not like the photo
                         else if(!mHolder.likedByCurrentUser){
-                            //add new like
                             addLikes(mHolder);
                             break;
                         }
                     }
                     if(!dataSnapshot.exists()){
-                        //add new like
                         addLikes(mHolder);
                     }
                 }
@@ -284,9 +282,9 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    Log.d(TAG,"In line 378, current username: "+singleSnapshot.getValue(UserAccountSettings.class).toString());
+//                    Log.d(TAG,"In line 378, current username: "+singleSnapshot.getValue(UserAccountSettings.class).toString());
                     currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getDisplay_name();
-                    Log.d(TAG,"In line 372, current username: "+currentUsername);
+//                    Log.d(TAG,"In line 372, current username: "+currentUsername);
                 }
 
             }
