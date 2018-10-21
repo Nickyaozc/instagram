@@ -1,3 +1,4 @@
+//This file is learnt with CodingWithMitch according to his courses on YouTube, the link is https://youtu.be/qpJRgr6HzAw
 package com.hawthorn.instagram.Utils;
 
 import android.content.Context;
@@ -96,33 +97,6 @@ public class FirebaseMethods {
                     Log.e(TAG, "getUserAccountSettings: NullPointerException: " + e.getMessage() );
                 }
             }
-//            // users node
-//            if(ds.getKey().equals(mContext.getString(R.string.dbname_users))) {
-//                Log.d(TAG, "getUserAccountSettings: datasnapshot: " + ds);
-//
-//                user.setUser_name(
-//                        ds.child(userID)
-//                                .getValue(User.class)
-//                                .getUser_name()
-//                );
-//                user.setEmail(
-//                        ds.child(userID)
-//                                .getValue(User.class)
-//                                .getEmail()
-//                );
-//                user.setPhone_number(
-//                        ds.child(userID)
-//                                .getValue(User.class)
-//                                .getPhone_number()
-//                );
-//                user.setUser_id(
-//                        ds.child(userID)
-//                                .getValue(User.class)
-//                                .getUser_id()
-//                );
-//
-//                Log.d(TAG, "getUserAccountSettings: retrieved users information: " + user.toString());
-//            }
         }
         return new UserSettings(user, settings);
 

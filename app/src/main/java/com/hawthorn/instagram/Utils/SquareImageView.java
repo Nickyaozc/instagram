@@ -1,12 +1,9 @@
+//This file is learnt with CodingWithMitch according to his courses on YouTube, the link is https://youtu.be/qpJRgr6HzAw
 package com.hawthorn.instagram.Utils;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-
-/**
- * Created by User on 6/4/2017.
- */
 
 public class SquareImageView extends AppCompatImageView {
 

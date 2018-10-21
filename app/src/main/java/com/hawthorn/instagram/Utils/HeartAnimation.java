@@ -1,3 +1,4 @@
+//This file is learnt with CodingWithMitch according to his courses on YouTube, the link is https://youtu.be/qpJRgr6HzAw
 package com.hawthorn.instagram.Utils;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -9,20 +10,19 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
-public class Heart {
+public class HeartAnimation {
 
-    private static final String TAG = "Heart";
+    private static final String TAG = "HeartAnimation";
 
     private static final DecelerateInterpolator DECCELERATE_INTERPOLATOR = new DecelerateInterpolator();
     private static final AccelerateInterpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
 
     public ImageView heartWhite, heartRed;
 
-    public Heart(ImageView heartWhite, ImageView heartRed) {
+    public HeartAnimation(ImageView heartWhite, ImageView heartRed) {
         this.heartWhite = heartWhite;
         this.heartRed = heartRed;
     }
-
     public void toggleLike(){
         Log.d(TAG, "toggleLike: toggling heart.");
 

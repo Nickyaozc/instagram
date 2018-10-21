@@ -1,3 +1,4 @@
+//This file is learnt with CodingWithMitch according to his courses on YouTube, the link is https://youtu.be/qpJRgr6HzAw
 package com.hawthorn.instagram.Utils;
 
 import android.content.Context;
@@ -37,20 +38,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
 
 
-    private static final String TAG = "MainfeedListAdapter";
+    private static final String TAG = "HomeFeedListAdapter";
 
     private LayoutInflater mInflater;
     private int mLayoutResource;
     private Context mContext;
     private DatabaseReference mReference;
     private String currentUsername = "";
-
-
-//    public interface OnCommentThreadSelectedListener{
-//        void onCommentThreadSelectedListener(Photo photo);
-//    }
-//    OnCommentThreadSelectedListener mOnCommentThreadSelectedListener;
-
 
 
     public HomeFeedListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Photo> objects) {
@@ -75,7 +69,7 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
         StringBuilder users;
         String mLikesString;
         boolean likedByCurrentUser;
-        Heart heart;
+        HeartAnimation heart;
         GestureDetector detector;
         Photo photo;
     }
@@ -98,9 +92,9 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             holder.likes = (TextView) convertView.findViewById(R.id.image_likes);
             holder.comments = (TextView) convertView.findViewById(R.id.image_comments_link);
             holder.caption = (TextView) convertView.findViewById(R.id.image_caption);
-            holder.timeDetla = (TextView) convertView.findViewById(R.id.image_time_posted);
+//            holder.timeDetla = (TextView) convertView.findViewById(R.id.image_time_posted);
             holder.mprofileImage = (CircleImageView) convertView.findViewById(R.id.profile_photo);
-            holder.heart = new Heart(holder.heartWhite, holder.heartRed);
+            holder.heart = new HeartAnimation(holder.heartWhite, holder.heartRed);
             holder.photo = getItem(position);
             holder.detector = new GestureDetector(mContext, new GestureListener(holder));
             holder.users = new StringBuilder();
@@ -111,13 +105,9 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        //get the current users username (need for checking likes string)
-        getCurrentUsername();
-
-        //get likes string
+        //get the current users username, likes string and the caption
+        getDisplayedName();
         getLikesString(holder);
-
-        //set the caption
         holder.caption.setText(getItem(position).getCaption());
 
         //set the comment
@@ -130,14 +120,7 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             }
         });
 
-        //set the time it was posted
-//        String timestampDifference = getTimestampDifference(getItem(position));
-//        if(!timestampDifference.equals("0")){
-//            holder.timeDetla.setText(timestampDifference + " DAYS AGO");
-//        }else{
-//            holder.timeDetla.setText("TODAY");
-//        }
-        holder.timeDetla.setText("TODAY");
+//        holder.timeDetla.setText("TODAY");
         //set the profile image
         final ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(getItem(position).getImage_path(), holder.image);
@@ -151,56 +134,13 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-
-                    // currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getUsername();
-
                     Log.d(TAG, "onDataChange: found user: "
                             + singleSnapshot.getValue(UserAccountSettings.class).getDisplay_name());
 
                     holder.username.setText(singleSnapshot.getValue(UserAccountSettings.class).getDisplay_name());
-//                    holder.username.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Log.d(TAG, "onClick: navigating to profile of: " +
-//                                    holder.user.getUsername());
-//
-//                            Intent intent = new Intent(mContext, ProfileActivity.class);
-//                            intent.putExtra(mContext.getString(R.string.calling_activity),
-//                                    mContext.getString(R.string.home_activity));
-//                            intent.putExtra(mContext.getString(R.string.intent_user), holder.user);
-//                            mContext.startActivity(intent);
-//                        }
-//                    });
-
                     imageLoader.displayImage(singleSnapshot.getValue(UserAccountSettings.class).getProfile_photo(),
                             holder.mprofileImage);
-//                    holder.mprofileImage.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Log.d(TAG, "onClick: navigating to profile of: " +
-//                                    holder.user.getUsername());
-//
-//                            Intent intent = new Intent(mContext, ProfileActivity.class);
-//                            intent.putExtra(mContext.getString(R.string.calling_activity),
-//                                    mContext.getString(R.string.home_activity));
-//                            intent.putExtra(mContext.getString(R.string.intent_user), holder.user);
-//                            mContext.startActivity(intent);
-//                        }
-//                    });
-
-
-
                     holder.settings = singleSnapshot.getValue(UserAccountSettings.class);
-//                    holder.comment.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            ((HomeActivity)mContext).onCommentThreadSelected(getItem(position),
-//                                    mContext.getString(R.string.home_activity));
-//
-//                            //another thing?
-//                            ((HomeActivity)mContext).hideLayout();
-//                        }
-//                    });
                 }
 
             }
@@ -234,32 +174,8 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
             }
         });
 
-//        if(reachedEndOfList(position)){
-////            loadMoreData();
-//        }
-
         return convertView;
     }
-
-    private boolean reachedEndOfList(int position){
-        return position == getCount() - 1;
-    }
-
-//    private void loadMoreData(){
-//
-//        try{
-//            mOnLoadMoreItemsListener = (OnLoadMoreItemsListener) getContext();
-//        }catch (ClassCastException e){
-//            Log.e(TAG, "loadMoreData: ClassCastException: " +e.getMessage() );
-//        }
-//
-//        try{
-//            mOnLoadMoreItemsListener.onLoadMoreItems();
-//        }catch (NullPointerException e){
-//            Log.e(TAG, "loadMoreData: ClassCastException: " +e.getMessage() );
-//        }
-//    }
-
     public class GestureListener extends GestureDetector.SimpleOnGestureListener{
 
         ViewHolder mHolder;
@@ -357,24 +273,23 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
         getLikesString(holder);
     }
 
-    private void getCurrentUsername(){
-        Log.d(TAG, "getCurrentUsername: retrieving user account settings");
+    private void getDisplayedName(){
+        Log.d(TAG, "getDisplayedName: retrieving user account settings");
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference
-                .child(mContext.getString(R.string.dbname_users))
+                .child(mContext.getString(R.string.dbname_user_account_settings))
                 .orderByChild(mContext.getString(R.string.field_user_id))
                 .equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    Log.d(TAG,"In line 378, current username: "+singleSnapshot.getValue(User.class).toString());
-                    currentUsername = singleSnapshot.getValue(User.class).getUsername();
+                    Log.d(TAG,"In line 378, current username: "+singleSnapshot.getValue(UserAccountSettings.class).toString());
+                    currentUsername = singleSnapshot.getValue(UserAccountSettings.class).getDisplay_name();
                     Log.d(TAG,"In line 372, current username: "+currentUsername);
                 }
 
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -424,34 +339,6 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
                                         temp.offer(splitUsers[i]);
                                     }
                                 }
-
-
-//                                int length = splitUsers.length;
-//                                if(length == 1){
-//                                    holder.likesString = "Liked by " + splitUsers[0];
-//                                }
-//                                else if(length == 2){
-//                                    holder.likesString = "Liked by " + splitUsers[0]
-//                                            + " and " + splitUsers[1];
-//                                }
-//                                else if(length == 3){
-//                                    holder.likesString = "Liked by " + splitUsers[0]
-//                                            + ", " + splitUsers[1]
-//                                            + " and " + splitUsers[2];
-//
-//                                }
-////                                else if(length == 4){
-////                                    holder.likesString = "Liked by " + splitUsers[0]
-////                                            + ", " + splitUsers[1]
-////                                            + ", " + splitUsers[2]
-////                                            + " and " + splitUsers[3];
-////                                }
-//                                else if(length > 3){
-//                                    holder.likesString = "Liked by " + splitUsers[0]
-//                                            + ", " + splitUsers[1]
-//                                            + ", " + splitUsers[2]
-//                                            + " and " + (splitUsers.length - 3) + " others";
-//                                }
                                 int length = temp.size();
                                 if(length == 1){
                                     holder.likesString = "Liked by " + temp.get(0);
@@ -466,12 +353,6 @@ public class HomeFeedListAdapter extends ArrayAdapter<Photo> {
                                             + " and " + temp.get(2);
 
                                 }
-//                                else if(length == 4){
-//                                    holder.likesString = "Liked by " + splitUsers[0]
-//                                            + ", " + splitUsers[1]
-//                                            + ", " + splitUsers[2]
-//                                            + " and " + splitUsers[3];
-//                                }
                                 else if(length > 3){
                                     holder.likesString = "Liked by " + temp.get(0)
                                             + ", " + temp.get(1)

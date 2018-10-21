@@ -1,3 +1,4 @@
+//This file is learnt with CodingWithMitch according to his courses on YouTube, the link is https://youtu.be/qpJRgr6HzAw
 package com.hawthorn.instagram.Home;
 
 
@@ -7,13 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.hawthorn.instagram.Models.Comment;
@@ -40,25 +35,6 @@ import com.hawthorn.instagram.Utils.UniversalImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-//public class HomeFragment extends Fragment {
-//
-//
-//    public HomeFragment() {
-//        // Required empty public constructor
-//    }
-//
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_home, container, false);
-//    }
-//
-//}
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     //firebase
@@ -181,11 +157,12 @@ public class HomeFragment extends Fragment {
             Collections.sort(mPhotos, new Comparator<Photo>() {
                 @Override
                 public int compare(Photo o1, Photo o2) {
+                    Log.d(TAG, "o2"+o2.getDate_created() + "o1"+o1.getDate_created());
                     return o2.getDate_created().compareTo(o1.getDate_created());
                 }
             });
 
-            mAdapter = new HomeFeedListAdapter(getActivity(), R.layout.layout_mainfeed_listitem, mPhotos);
+            mAdapter = new HomeFeedListAdapter(getActivity(), R.layout.layout_homefeed_listitem, mPhotos);
             mListView.setAdapter(mAdapter);
         }
     }
@@ -214,23 +191,6 @@ public class HomeFragment extends Fragment {
             }
         };
 
-
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                //retrieve user information from the database
-//                setProfileWidgets(mFirebaseMethods.getUserSettings(dataSnapshot));
-//
-//                //retrieve images for the user in question
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
     }
 
 

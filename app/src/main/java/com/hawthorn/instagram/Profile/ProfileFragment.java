@@ -1,3 +1,4 @@
+//This file is learnt with CodingWithMitch according to his courses on YouTube, the link is https://youtu.be/qpJRgr6HzAw
 package com.hawthorn.instagram.Profile;
 
 
@@ -31,60 +32,23 @@ import com.hawthorn.instagram.Models.UserSettings;
 import com.hawthorn.instagram.R;
 import com.hawthorn.instagram.Utils.FirebaseMethods;
 import com.hawthorn.instagram.Utils.GridImageAdapter;
+import com.hawthorn.instagram.Utils.HomeFeedListAdapter;
 import com.hawthorn.instagram.Utils.UniversalImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-//public class ProfileFragment extends Fragment {
-//
-//
-//    public ProfileFragment() {
-//        // Required empty public constructor
-////        getActivity();
-////        initImageLoader();
-//        return;
-//    }
-//
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_profile, container, false);
-//    }
-//
-//    private void initImageLoader(){
-//        UniversalImageLoader universalImageLoader = new UniversalImageLoader(getActivity());
-//        ImageLoader.getInstance().init(universalImageLoader.getConfig());
-//    }
-//}
-//public class ProfileFragment extends Fragment {
-//
-//    private static final String TAG = "ProfileFragment";
-//
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-//
-//
-//        return view;
-//    }
-//}
 public class ProfileFragment extends Fragment {
 
     private static final String TAG = "ProfileFragment";
 
-    private static final int ACTIVITY_NUM = 4;
     private static final int NUM_GRID_COLUMNS =3;
     //firebase
     private FirebaseAuth mAuth;
@@ -175,6 +139,16 @@ public class ProfileFragment extends Fragment {
                         photo.setDate_created(objectMap.get(getString(R.string.field_date_created)).toString());
                         photo.setImage_path(objectMap.get(getString(R.string.field_image_path)).toString());
                         photos.add(photo);
+                        //Sorting photos according to date created.
+                        if(photos != null){
+                            Collections.sort(photos, new Comparator<Photo>() {
+                                @Override
+                                public int compare(Photo o1, Photo o2) {
+//                                    Log.d(TAG, "o2"+o2.getDate_created() + "o1"+o1.getDate_created());
+                                    return o2.getDate_created().compareTo(o1.getDate_created());
+                                }
+                            });
+                        }
                     }catch(NullPointerException e){
                         Log.e(TAG, "onDataChange: NullPointerException: " + e.getMessage() );
                     }
@@ -219,8 +193,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
-
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -236,12 +208,7 @@ public class ProfileFragment extends Fragment {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                //retrieve user information from the database
                 setProfileWidgets(mFirebaseMethods.getUserSettings(dataSnapshot));
-
-                //retrieve images for the user in question
-
             }
 
             @Override
