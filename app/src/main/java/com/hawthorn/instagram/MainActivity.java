@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         activityFragment = new ActivityFragment();
         profileFragment = new ProfileFragment();
 
-        setFragment(homeFragment);
+//        setFragment(homeFragment);
 //        mToolbar.setLogo(R.drawable.instagram_textlogo);
         setUpBottomNavigationListener();
     }
@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             // User is signed in
             Log.d(TAG, "checkCurrentUser: signed_in: " + user.getUid());
+            setFragment(homeFragment);
         } else {
             // User is signed out
             Log.d(TAG, "checkCurrentUser: signed_out");

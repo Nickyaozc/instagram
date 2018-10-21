@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hawthorn.instagram.MainActivity;
@@ -170,13 +171,17 @@ public class FirebaseMethods {
     }
 
 
-    public int getImageCount(DataSnapshot dataSnapshot) {
+     public int getImageCount(DataSnapshot dataSnapshot) {
         int count = 0;
-        for(DataSnapshot ds: dataSnapshot
-                .child(mContext.getString(R.string.dbname_user_photos))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .getChildren()){
-            count++;
+        try {
+            for (DataSnapshot ds : dataSnapshot
+                    .child(mContext.getString(R.string.dbname_user_photos))
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .getChildren()) {
+                count++;
+            }
+        } catch (Exception e) {
+            return count;
         }
         return count;
     }
