@@ -5,7 +5,7 @@ public class Act {
     private String receiver;
     private String content;
     private String photo1;
-    private String photo2;
+
     public String getPhoto1() {
         return photo1;
     }
@@ -22,7 +22,7 @@ public class Act {
         this.photo2 = photo2;
     }
 
-
+    private String photo2;
 
     public Act(){}
     public Act(String initializer, String receiver, String content, String photo1, String photo2){

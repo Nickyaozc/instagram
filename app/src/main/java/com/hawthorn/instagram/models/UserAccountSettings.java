@@ -164,4 +164,6 @@ public class UserAccountSettings implements Parcelable{
         dest.writeString(website);
         dest.writeString(user_id);
     }
+
 }
+

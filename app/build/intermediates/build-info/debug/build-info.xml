@@ -2,60 +2,62 @@
 <instant-run
     abi="x86"
     api-level="28"
-    build-mode="COLD"
+    build-mode="FULL"
     density="xxhdpi"
     format="10"
-    ir-eligibility="CLASS_ADDED"
     plugin-version="3.1.4"
-    timestamp="1540108570166"
+    timestamp="1540112923367"
     token="-9196674146644892276"
-    verifier="COLD_SWAP_REQUESTED" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="3741" />
+        duration="9501" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="489" />
+        duration="1251" />
     <task
         name="verifier"
-        duration="120" />
+        duration="713" />
 
     <artifact
         location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/resources/instant-run/debug/resources-debug.apk"
         type="SPLIT" />
     <artifact
-        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
-        type="SPLIT" />
-    <artifact
-        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
-        type="SPLIT" />
-    <artifact
-        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
-        type="SPLIT" />
-    <artifact
-        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
-        type="SPLIT" />
-    <artifact
-        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
-        type="SPLIT" />
-    <artifact
         location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
         type="SPLIT" />
     <artifact
-        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
-        type="SPLIT" />
-    <artifact
-        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
         type="SPLIT" />
     <artifact
         location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
         type="SPLIT" />
     <artifact
-        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
         type="SPLIT" />
     <artifact
         location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
@@ -63,10 +65,16 @@
 
     <build
         build-mode="FULL"
-        timestamp="1540106274856"
+        timestamp="1540112923367"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/resources/instant-run/debug/resources-debug.apk"
+            type="SPLIT" />
+        <artifact
+            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
+            type="SPLIT" />
+        <artifact
+            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
         <artifact
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
@@ -93,55 +101,7 @@
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
-            type="SPLIT" />
-        <artifact
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
-            type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="CLASS_ADDED"
-        timestamp="1540108570166"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/resources/instant-run/debug/resources-debug.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
         <artifact
             location="/Users/weirenchen/Desktop/instagram/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
